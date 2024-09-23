@@ -1,5 +1,0 @@
-{
-  "name": "Django and Angular CI",
-  "description": "A CI workflow for projects that use both Django (Python) and Angular (JavaScript)",
-  "icon": "check-circle"
-}
