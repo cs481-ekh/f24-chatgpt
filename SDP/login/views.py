@@ -1,6 +1,6 @@
 # views.py
 from django.shortcuts import render, redirect
-from .models import login  # Assuming you have a custom Login model
+from .models import Login  # Assuming you have a custom Login model
 from django.contrib import messages
 
 def login_view(request):
@@ -10,14 +10,14 @@ def login_view(request):
 
         # Check if the username and password exist in the Login model
         try:
-            user = login.objects.get(username=username)
+            user = Login.objects.get(username=username)
             if user.password == password:
                 # Redirect to the main page after successful login
                 return redirect('')
             else:
                 # If password is incorrect, add error message
                 messages.error(request, 'Invalid password. Please try again.')
-        except login.DoesNotExist:
+        except Login.DoesNotExist:
             # If username does not exist, add error message
             messages.error(request, 'Invalid username. Please try again.')
 
