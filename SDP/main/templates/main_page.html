@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Design Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .boolean-yes {
+            color: green;
+        }
+        .boolean-no {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Senior Design Projects</h1>
+
+    <table>
+        <tr>
+            <th>Team Abbreviation</th>
+            <th>Location</th>
+            <th>Poster Title</th>
+            <th>Abstract</th>
+            <th>Number of Team Members</th>
+            <th>Team Member Names</th>
+            <th>Need Power</th>
+            <th>Two Outlets</th>
+            <th>Table</th>
+            <th>Foamboard</th>
+            <th>Clips</th>
+            <th>Large Presentation</th>
+            <th>Sponsor Logos</th>
+            <th>Pictures</th>
+        </tr>
+
+        <!-- Loop through senior design projects -->
+        {% for senior_design in senior_designs %}
+        <tr>
+            <td>{{ senior_design.Team_abbreviation }}</td>
+            <td>{{ senior_design.Location }}</td>
+            <td>{{ senior_design.Poster_title }}</td>
+            <td>{{ senior_design.Abstract }}</td>
+            <td>{{ senior_design.num_team_members }}</td>
+            <td>{{ senior_design.team_member_names }}</td>
+
+            <td>
+                {% if senior_design.Need_power %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.two_outlets %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.table %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.foamboard %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.clips %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.large_presentation %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.sponsor_logos %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.pictures %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
