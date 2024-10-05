@@ -46,3 +46,5 @@ class UrlTests(TestCase):
     def test_admin_url(self):
         response = self.client.get('/admin/')
         self.assertEqual(response.status_code, 302)  # Redirects to login page if not authenticated
+
+        
