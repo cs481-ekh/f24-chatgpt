@@ -1,11 +1,7 @@
 from django.urls import path
 from . import views
-from django.contrib import admin
 
 urlpatterns = [
-    path('', views.main, name='main'),
+    path('', views.main, name='main'),  # Main page
+    path('new/', views.new_team_entry, name='new_team_entry'),  # New team entry form
 ]
-'''
-  path('main_page', views.main_page, name='main_page'),
-  path('admin/', admin.site.urls)
-'''

@@ -29,9 +29,28 @@
         .boolean-no {
             color: red;
         }
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 20px; /* Position button at the top */
+            right: 20px; /* Position button to the left */
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
+    <!-- Add Button for New Entry (positioned top-left) -->
+    <a href="{% url 'new_team_entry' %}" class="btn">Add New Team</a>
+
     <h1>Senior Design Projects</h1>
 
     <table>
