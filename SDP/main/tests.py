@@ -7,7 +7,7 @@ class ModelTests(TestCase):
         SeniorDesign.objects.create(
             Team_abbreviation="TEST",
             Location="Test Location",
-            Poster_tittle="Test Poster",
+            Poster_title="Test Poster",
             Abstract="Test Abstract",
             num_team_members=4,
             team_member_names="John, Jane, Bob, Alice",
@@ -16,9 +16,9 @@ class ModelTests(TestCase):
             table=True,
             foamboard=False,
             clips=False,
-            large_presentaion=False,
+            large_presentation=False,
             sponsor_logos=True,
-            picutures=True
+            pictures=True
         )
 
     def test_senior_design_creation(self):
