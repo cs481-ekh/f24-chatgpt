@@ -1,9 +1,14 @@
-# login/models.py
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class Login(models.Model):
-    username = models.CharField(max_length=150, unique=True)
-    password = models.CharField(max_length=128)
+class CustomUser(AbstractUser):
+    USER_TYPE_CHOICES = (
+        (1, 'admin'),
+        (2, 'user'),
+        (3, 'planner'),
+    )
     
-    def __str__(self): 
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=2)
+
+    def __str__(self):
         return self.username
