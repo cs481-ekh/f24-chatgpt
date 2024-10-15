@@ -16,4 +16,4 @@ def login_view(request):
         except Login.DoesNotExist:
             messages.error(request, "Username does not exist.")
     
-    return render(request, 'login.html')
+    return render(request, 'login.component.html')
