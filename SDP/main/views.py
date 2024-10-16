@@ -6,7 +6,7 @@ from .forms import SeniorDesignForm
 
 def main(request):
     senior_designs = SeniorDesign.objects.all()
-    return render(request, 'main_page.html', {'senior_designs': senior_designs})
+    return render(request, 'main-page.component.html', {'senior_designs': senior_designs})
 
 def new_team_entry(request):
     if request.method == 'POST':
@@ -17,4 +17,4 @@ def new_team_entry(request):
     else:
         form = SeniorDesignForm()
 
-    return render(request, 'new_team_entry.html', {'form': form})
+    return render(request, 'new-team-entry.component.html', {'form': form})

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Design Showcase</title>
+    <style>
+        .banner {
+            background-color: #D64309; /* Change color as needed */
+            padding: 15px 30px; /* Adjust padding for the height of the banner */
+            display: flex;
+            justify-content: center; /* Centers the content horizontally */
+            align-items: center; /* Centers the content vertically */
+            position: fixed; /* Sticks the banner to the top */
+            top: 0;
+            width: 100%; /* Full width banner */
+            z-index: 1000; /* Ensures it stays on top of other elements */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: -50px;
+        }
+
+        .sdp-logo img {
+            height: 50px; /* Adjust logo size */
+            width: auto;
+        }
+
+        .logo-header{
+            padding-left: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+        }
+        body {
+            padding-top: 100px;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #0033A0;
+        }
+        h1 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff; /* White background for contrast */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        }
+
+        table, th, td {
+            border: 1px solid #ddd; /* Light border color */
+        }
+
+        th, td {
+            padding: 12px 15px; /* Padding inside table cells */
+            text-align: left; /* Align text to the left */
+            font-family: 'Arial', sans-serif; /* Consistent font */
+        }
+
+        th {
+            background-color: #707172; /* Orange header to match the banner */
+            color: white; /* White text on the header */
+            font-size: 16px;
+            text-transform: uppercase; /* Make headers bold and uppercase */
+        }
+
+        td {
+            font-size: 14px;
+            color: #333; /* Dark text color */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Alternate row background color for readability */
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; /* Highlight row on hover */
+            cursor: pointer; /* Show pointer cursor on hover */
+        }
+
+        .boolean-yes {
+            color: green;
+            font-weight: bold; /* Bold for emphasis */
+        }
+
+        .boolean-no {
+            color: red;
+            font-weight: bold; /* Bold for emphasis */
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f06329;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 140px; /* Position button at the top */
+            right: 75px; /* Position button to the left */
+        }
+        .btn:hover {
+            background-color: #224aa1;
+        }
+    </style>
+</head>
+<body>
+    <div class = "banner">
+        <div class="sdp-logo">
+            {% load static %}
+            <img src="{% static 'images/bsu-sdp-button.png' %}" alt="senior design logo">
+        </div>
+        <div class = "logo-header">
+            <h1>Senior Showcase Manager</h1>
+        </div>
+    </div>
+    <!-- Add Button for New Entry (positioned top-left) -->
+    <a href="{% url 'new_team_entry' %}" class="btn">Add New Team</a>
+
+    <h1>Senior Design Projects</h1>
+
+    <table>
+        <tr>
+            <th>Team Abbreviation</th>
+            <th>Location</th>
+            <th>Poster Title</th>
+            <th>Abstract</th>
+            <th>Number of Team Members</th>
+            <th>Team Member Names</th>
+            <th>Need Power</th>
+            <th>Two Outlets</th>
+            <th>Table</th>
+            <th>Foamboard</th>
+            <th>Clips</th>
+            <th>Large Presentation</th>
+            <th>Sponsor Logos</th>
+            <th>Pictures</th>
+        </tr>
+
+        <!-- Loop through senior design projects -->
+        {% for senior_design in senior_designs %}
+        <tr>
+            <td>{{ senior_design.Team_abbreviation }}</td>
+            <td>{{ senior_design.Location }}</td>
+            <td>{{ senior_design.Poster_title }}</td>
+            <td>{{ senior_design.Abstract }}</td>
+            <td>{{ senior_design.num_team_members }}</td>
+            <td>{{ senior_design.team_member_names }}</td>
+
+            <td>
+                {% if senior_design.Need_power %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.two_outlets %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.table %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.foamboard %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.clips %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.large_presentation %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.sponsor_logos %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if senior_design.pictures %}
+                    <span class="boolean-yes">Yes</span>
+                {% else %}
+                    <span class="boolean-no">No</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
