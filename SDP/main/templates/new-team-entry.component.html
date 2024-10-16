@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Team Entry</title>
+    <style>
+        .banner {
+            background-color: #D64309; /* Change color as needed */
+            padding: 15px 30px; /* Adjust padding for the height of the banner */
+            display: flex;
+            justify-content: center; /* Centers the content horizontally */
+            align-items: center; /* Centers the content vertically */
+            position: fixed; /* Sticks the banner to the top */
+            top: 0;
+            width: 100%; /* Full width banner */
+            z-index: 1000; /* Ensures it stays on top of other elements */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: -50px;
+        }
+
+        .sdp-logo img {
+            height: 50px; /* Adjust logo size */
+            width: auto;
+        }
+
+        .logo-header{
+            padding-left: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+        }
+        h1 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding-top: 100px;
+            background-color: #0033A0;
+        }
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+            color: white;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn-submit {
+            background-color: #f06329;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn-submit:hover {
+            background-color: #224aa1;
+        }
+    </style>
+</head>
+<body>
+    <div class = "banner">
+        <div class="sdp-logo">
+            {% load static %}
+            <img src="{% static 'images/bsu-sdp-button.png' %}" alt="senior design logo">
+        </div>
+        <div class = "logo-header">
+            <h1>Senior Showcase Manager</h1>
+        </div>
+    </div>
+    <div class="form-container">
+        <h1>Add New Team Entry</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
