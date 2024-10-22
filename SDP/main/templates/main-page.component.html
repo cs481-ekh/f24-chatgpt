@@ -118,7 +118,9 @@
         </div>
     </div>
     <!-- Add Button for New Entry (positioned top-left) -->
-    <a href="{% url 'new_team_entry' %}" class="btn">Add New Team</a>
+     {% if not is_planner %}
+        <a href="{% url 'new_team_entry' %}" class="btn">Add New Team</a>
+    {% endif %}
 
     <h1>Senior Design Projects</h1>
 
