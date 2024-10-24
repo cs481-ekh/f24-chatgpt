@@ -4,6 +4,7 @@ from .models import SeniorDesign
 from .forms import SeniorDesignForm
 from django.http import HttpResponse
 import csv
+from django.shortcuts import get_object_or_404
 
 def is_user(user):
     return user.groups.filter(name='User').exists()
@@ -89,6 +90,22 @@ def create_senior_design(request):
     else:
         form = SeniorDesignForm()
     return render(request, 'create_senior_design.html', {'form': form})
+
+
+@login_required
+@user_passes_test(is_user)
+def edit_entry(request, entry_id):
+    entry = get_object_or_404(SeniorDesign, pk=entry_id)
+    if request.method == 'POST':
+        form = SeniorDesignForm(request.POST, request.FILES, instance=entry)
+        if form.is_valid():
+            form.save()
+            return redirect('main')
+    else:
+        form = SeniorDesignForm(instance=entry)
+
+    return render(request, 'edit-entry.component.html', {'form': form, 'entry': entry})
+
 
 @login_required
 def senior_design_list(request):
