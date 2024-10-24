@@ -1,9 +1,10 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required,user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import SeniorDesign
 from .forms import SeniorDesignForm
+from django.http import HttpResponse
+import csv
 from django.shortcuts import get_object_or_404
-
 
 def is_user(user):
     return user.groups.filter(name='User').exists()
@@ -14,12 +15,56 @@ def is_planner(user):
 # Create your views here.
 def main(request):
     senior_designs = SeniorDesign.objects.all()
-
     is_planner = request.user.groups.filter(name='Planner').exists()
-
     return render(request, 'main-page.component.html', {
         'senior_designs': senior_designs,
         'is_planner': is_planner})
+
+@login_required
+def export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="senior_designs.csv"'
+    
+    writer = csv.writer(response)
+    # Write the header row
+    writer.writerow([
+        'Team Abbreviation',
+        'Location',
+        'Poster Title',
+        'Abstract',
+        'Number of Team Members',
+        'Team Member Names',
+        'Need Power',
+        'Two Outlets',
+        'Table',
+        'Foamboard',
+        'Clips',
+        'Large Presentation',
+        'Sponsor Logos',
+        'Pictures'
+    ])
+    
+    # Write the data rows
+    senior_designs = SeniorDesign.objects.all()
+    for design in senior_designs:
+        writer.writerow([
+            design.Team_abbreviation,
+            design.Location,
+            design.Poster_title,
+            design.Abstract,
+            design.num_team_members,
+            design.team_member_names,
+            'Yes' if design.Need_power else 'No',
+            'Yes' if design.two_outlets else 'No',
+            'Yes' if design.table else 'No',
+            'Yes' if design.foamboard else 'No',
+            'Yes' if design.clips else 'No',
+            'Yes' if design.large_presentation else 'No',
+            'Yes' if design.sponsor_logos else 'No',
+            'Yes' if design.pictures else 'No'
+        ])
+    
+    return response
 
 @login_required
 @user_passes_test(is_user)
