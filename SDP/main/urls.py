@@ -10,6 +10,7 @@ urlpatterns = [
     path('new/', views.new_team_entry, name='new_team_entry'),  # New team entry form
     path('', views.senior_design_list, name='project_list'),
     path('admin/', admin.site.urls),
+    path('edit/<int:entry_id>/', views.edit_entry, name='edit_entry'),  # Edit team entry form
 ]
 
 if settings.DEBUG:
