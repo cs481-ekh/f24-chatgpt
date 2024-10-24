@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required,user_passes_test
 from .models import SeniorDesign
 from .forms import SeniorDesignForm
-from django import get_object_or_404
+from django.shortcuts import get_object_or_404
 
 
 def is_user(user):
