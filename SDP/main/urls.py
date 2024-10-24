@@ -7,9 +7,10 @@ from . import views
 
 urlpatterns = [
     path('', views.main, name='main'),  # Main page
-    path('new/', views.new_team_entry, name='new_team_entry'),  # New team entry form
     path('', views.senior_design_list, name='project_list'),
     path('admin/', admin.site.urls),
+    path('export-csv/', views.export_csv, name='export_csv'),
+    path('new/', views.new_team_entry, name='new_team_entry'),  # New team entry form
 ]
 
 if settings.DEBUG:

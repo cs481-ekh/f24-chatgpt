@@ -6,87 +6,49 @@
     <title>Senior Design Showcase</title>
     <style>
         .banner {
-            background-color: #D64309; /* Change color as needed */
-            padding: 15px 30px; /* Adjust padding for the height of the banner */
+            background-color: #D64309;
+            padding: 15px 30px;
             display: flex;
-            justify-content: center; /* Centers the content horizontally */
-            align-items: center; /* Centers the content vertically */
-            position: fixed; /* Sticks the banner to the top */
+            justify-content: center;
+            align-items: center;
+            position: fixed;
             top: 0;
-            width: 100%; /* Full width banner */
-            z-index: 1000; /* Ensures it stays on top of other elements */
+            width: 100%;
+            z-index: 1000;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-left: -50px;
         }
 
         .sdp-logo img {
-            height: 50px; /* Adjust logo size */
+            height: 50px;
             width: auto;
         }
 
-        .logo-header{
+        .logo-header {
             padding-left: 30px;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
         }
+        
         body {
             padding-top: 100px;
             font-family: Arial, sans-serif;
             margin: 20px;
             background-color: #0033A0;
         }
+
         h1 {
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #ffffff; /* White background for contrast */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-        }
 
-        table, th, td {
-            border: 1px solid #ddd; /* Light border color */
-        }
-
-        th, td {
-            padding: 12px 15px; /* Padding inside table cells */
-            text-align: left; /* Align text to the left */
-            font-family: 'Arial', sans-serif; /* Consistent font */
-        }
-
-        th {
-            background-color: #707172; /* Orange header to match the banner */
-            color: white; /* White text on the header */
-            font-size: 16px;
-            text-transform: uppercase; /* Make headers bold and uppercase */
-        }
-
-        td {
-            font-size: 14px;
-            color: #333; /* Dark text color */
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9; /* Alternate row background color for readability */
-        }
-
-        tr:hover {
-            background-color: #f1f1f1; /* Highlight row on hover */
-            cursor: pointer; /* Show pointer cursor on hover */
-        }
-
-        .boolean-yes {
-            color: green;
-            font-weight: bold; /* Bold for emphasis */
-        }
-
-        .boolean-no {
-            color: red;
-            font-weight: bold; /* Bold for emphasis */
+        /* Button container styles */
+        .button-container {
+            display: flex;
+            gap: 20px; /* Space between buttons */
+            position: absolute;
+            top: 140px;
+            right: 75px;
         }
 
         /* Button styles */
@@ -97,31 +59,83 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
-            margin-bottom: 20px;
-            position: absolute;
-            top: 140px; /* Position button at the top */
-            right: 75px; /* Position button to the left */
+            transition: background-color 0.3s ease;
         }
+
         .btn:hover {
             background-color: #224aa1;
+        }
+
+        /* Rest of your existing styles... */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            font-family: 'Arial', sans-serif;
+        }
+
+        th {
+            background-color: #707172;
+            color: white;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        td {
+            font-size: 14px;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .boolean-yes {
+            color: green;
+            font-weight: bold;
+        }
+
+        .boolean-no {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class = "banner">
+    <div class="banner">
         <div class="sdp-logo">
             {% load static %}
             <img src="{% static 'images/bsu-sdp-button.png' %}" alt="senior design logo">
         </div>
-        <div class = "logo-header">
+        <div class="logo-header">
             <h1>Senior Showcase Manager</h1>
         </div>
     </div>
-    <!-- Add Button for New Entry (positioned top-left) -->
-     {% if not is_planner %}
-        <a href="{% url 'new_team_entry' %}" class="btn">Add New Team</a>
-    {% endif %}
 
+    <!-- Button container with role-based visibility -->
+    <div class="button-container">
+        {% if not is_planner %}
+        <a href="{% url 'new_team_entry' %}" class="btn">Add New Team</a>
+        {% endif %}
+        <a href="{% url 'export_csv' %}" class="btn">Export to CSV</a>
+    </div>
+    
     <h1>Senior Design Projects</h1>
 
     <table>
