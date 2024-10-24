@@ -46,6 +46,7 @@ def create_senior_design(request):
         form = SeniorDesignForm()
     return render(request, 'create_senior_design.html', {'form': form})
 
+
 @login_required
 @user_passes_test(is_user)
 def edit_entry(request, entry_id):
