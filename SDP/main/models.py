@@ -18,7 +18,7 @@ class SeniorDesign(models.Model):
     sponsor_first_last_name = models.TextField(default='Name')
     sponsor_affiliation = models.TextField(default='Name')
     contact_email = models.TextField(default='Name')
-    sponsor_first_last_name = models.TextField(default='Name')
+    
 
     def __str__(self):
         return self.Team_abbreviation
