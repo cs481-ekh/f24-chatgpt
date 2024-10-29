@@ -106,6 +106,19 @@ def edit_entry(request, entry_id):
 
     return render(request, 'edit-entry.component.html', {'form': form, 'entry': entry})
 
+@login_required
+@user_passes_test(is_user)
+def delete_team_entry(request, entry_id):
+    senior_design = get_object_or_404(SeniorDesign, id=entry_id)
+
+    # Check if the request method is POST to confirm deletion
+    if request.method == 'POST':
+        senior_design.delete()
+        return HttpResponseRedirect(reverse('main'))  # Redirect back to the main page after deletion
+
+    # Render a confirmation page if the request method is GET
+    return render(request, 'confirm_delete.html', {'senior_design': senior_design})
+
 
 @login_required
 def senior_design_list(request):

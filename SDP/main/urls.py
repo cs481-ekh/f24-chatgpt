@@ -12,6 +12,7 @@ urlpatterns = [
     path('export-csv/', views.export_csv, name='export_csv'),
     path('new/', views.new_team_entry, name='new_team_entry'),  # New team entry form
     path('edit/<int:entry_id>/', views.edit_entry, name='edit_entry'),  # Edit team entry form
+    path('delete/<int:entry_id>/', views.delete_team_entry, name='delete_team_entry'),
 ]
 
 if settings.DEBUG:
