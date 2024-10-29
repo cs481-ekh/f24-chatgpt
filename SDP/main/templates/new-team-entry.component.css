@@ -1,0 +1,32 @@
+.form-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    color: white;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+input, textarea {
+    font-size: 14px;
+    padding: 6px;
+    margin-bottom: 8px;
+}
+
+textarea {
+    height: 60px;
+    resize: vertical;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-field {
+    flex: 1;
+}
