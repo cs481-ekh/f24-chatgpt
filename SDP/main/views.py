@@ -5,6 +5,8 @@ from .forms import SeniorDesignForm
 from django.http import HttpResponse
 import csv
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect  # Add this line if you prefer HttpResponseRedirect
+from django.shortcuts import redirect, get_object_or_404, render
 
 def is_user(user):
     return user.groups.filter(name='User').exists()
@@ -111,13 +113,11 @@ def edit_entry(request, entry_id):
 def delete_team_entry(request, entry_id):
     senior_design = get_object_or_404(SeniorDesign, id=entry_id)
 
-    # Check if the request method is POST to confirm deletion
     if request.method == 'POST':
         senior_design.delete()
-        return HttpResponseRedirect(reverse('main'))  # Redirect back to the main page after deletion
+        return redirect('main')  # Use redirect instead of HttpResponseRedirect
 
-    # Render a confirmation page if the request method is GET
-    return render(request, 'confirm_delete.html', {'senior_design': senior_design})
+    return render(request, 'delete.component.html', {'senior_design': senior_design})
 
 
 @login_required
