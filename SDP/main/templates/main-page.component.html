@@ -42,16 +42,14 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* Button container styles */
         .button-container {
             display: flex;
-            gap: 20px; /* Space between buttons */
+            gap: 20px;
             position: absolute;
             top: 140px;
             right: 75px;
         }
 
-        /* Button styles */
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -66,7 +64,6 @@
             background-color: #224aa1;
         }
 
-        /* Rest of your existing styles... */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -120,6 +117,8 @@
             font-weight: bold;
         }
     </style>
+    <!-- DataTables CSS CDN -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 </head>
 <body>
     <div class="banner">
@@ -132,114 +131,73 @@
         </div>
     </div>
 
-    <!-- Button container with role-based visibility -->
     <div class="button-container">
         {% if not is_planner %}
         <a href="{% url 'new_team_entry' %}" class="btn">Add New Team</a>
         {% endif %}
         <a href="{% url 'export_csv' %}" class="btn">Export to CSV</a>
     </div>
-    
+
     <h1>Senior Design Projects</h1>
 
-    <table>
-        <tr>
-            <th>Department</th>
-            <th>Poster Title</th>
-            <th>Abstract</th>
-            <th>Number of Team Members</th>
-            <th>Team Member Names</th>
-            <th>Need Power</th>
-            <th>Need More </th>
-            <th>Table</th>
-            <th>Easle</th>
-            <th>Foamboard</th>
-            <th>Description</th>
-            <th>Additional Comments</th>
-            <th>Sponsor Logos</th>
-            <th>Pictures</th>
-            <th>Sponsor Name</th>
-            <th>Affiliation</th>
-            <th>Contact Email</th> 
-        </tr>
-
-        <!-- Loop through senior design projects -->
-        {% for senior_design in senior_designs %}
-        <tr>
-            <td>{{ senior_design.Department }}</td>
-            <td>{{ senior_design.Poster_title }}</td>
-            <td>{{ senior_design.Abstract }}</td>
-            <td>{{ senior_design.num_team_members }}</td>
-            <td>{{ senior_design.team_member_names }}</td>
-
-            <td>
-                {% if senior_design.Need_power %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.two_outlets %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.table %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.easle %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.foam %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>{{ senior_design.Brief_description }}</td>
-
-            <td>{{ senior_design.Any_additional_comments }}</td>
-
-            <td>
-                {% if senior_design.sponsor_logos %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.pictures %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>{{ senior_design.sponsor_first_last_name }}</td>
-
-            <td>{{ senior_design.sponsor_affiliation }}</td>
-            
-            <td>{{ senior_design.contact_email }}</td>
-        </tr>
-        {% endfor %}
+    <table id="projects-table">
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Poster Title</th>
+                <th>Abstract</th>
+                <th>Number of Team Members</th>
+                <th>Team Member Names</th>
+                <th>Need Power</th>
+                <th>Need More </th>
+                <th>Table</th>
+                <th>Easle</th>
+                <th>Foamboard</th>
+                <th>Description</th>
+                <th>Additional Comments</th>
+                <th>Sponsor Logos</th>
+                <th>Pictures</th>
+                <th>Sponsor Name</th>
+                <th>Affiliation</th>
+                <th>Contact Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for senior_design in senior_designs %}
+            <tr>
+                <td>{{ senior_design.Department }}</td>
+                <td>{{ senior_design.Poster_title }}</td>
+                <td>{{ senior_design.Abstract }}</td>
+                <td>{{ senior_design.num_team_members }}</td>
+                <td>{{ senior_design.team_member_names }}</td>
+                <td>{% if senior_design.Need_power %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.two_outlets %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.table %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.easle %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.foam %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{{ senior_design.Brief_description }}</td>
+                <td>{{ senior_design.Any_additional_comments }}</td>
+                <td>{% if senior_design.sponsor_logos %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.pictures %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{{ senior_design.sponsor_first_last_name }}</td>
+                <td>{{ senior_design.sponsor_affiliation }}</td>
+                <td>{{ senior_design.contact_email }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
+
+    <!-- jQuery and DataTables JS CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#projects-table').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true
+            });
+        });
+    </script>
 </body>
 </html>
-
