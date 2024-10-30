@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Delete</title>
+    <style>
+        .container {
+            text-align: center;
+            max-width: 600px;
+            margin: 50px auto;
+            color: #333;
+        }
+        .btn-confirm, .btn-cancel {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .btn-confirm {
+            background-color: #d9534f;
+            color: white;
+        }
+        .btn-confirm:hover {
+            background-color: #c9302c;
+        }
+        .btn-cancel {
+            background-color: #5bc0de;
+            color: white;
+            margin-left: 10px;
+        }
+        .btn-cancel:hover {
+            background-color: #31b0d5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirm Delete</h1>
+        <p>Are you sure you want to delete the entry for <strong>{{ senior_design.Poster_title }}</strong>?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn-confirm">Delete</button>
+            <a href="{% url 'main' %}" class="btn-cancel">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
