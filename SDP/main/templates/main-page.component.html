@@ -116,6 +116,114 @@
             color: red;
             font-weight: bold;
         }
+
+         /* Custom styling for DataTables features */
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_paginate,
+        .dataTables_wrapper .dataTables_info {
+            color: white; /* Make text white */
+            font-size: 16px; /* Increase font size */
+            padding: 20px;
+            font-weight: bold;
+        }
+
+        .dataTables_wrapper .dataTables_filter label,
+        .dataTables_wrapper .dataTables_length label {
+            color: white; /* Make labels white */
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #0033A0;
+            color: white; /* Make input text white */
+            margin-left: 5px;
+        }
+
+        /* Styling the dropdown select element */
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #0033A0;
+    color: white; /* Main part (closed dropdown) text is white */
+}
+
+/* Styling option text (this will only apply if the browser supports it) */
+.dataTables_wrapper .dataTables_length select option {
+    color: black; /* Open dropdown options text is black */
+    background-color: #ffffff; /* White background for options */
+}
+
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 5px 10px;
+            margin-left: 2px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f06329;
+            color: white; /* Make pagination text white */
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #224aa1;
+            color: white;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #0033A0;
+            color: white; /* Make current page button text white */
+            font-weight: bold;
+        }
+
+        /* Ensure "Showing X to Y of Z entries" text is white */
+        .dataTables_wrapper .dataTables_info {
+            color: white !important;
+            font-size: 16px;
+        }
+
+       /* Base styling for pagination buttons */
+.dataTables_wrapper .dataTables_paginate  {
+    padding: 5px 10px;
+    margin-left: 2px;
+
+    background-color: #0033A0; /* Dark background */
+    color: white !important; /* Force white text */
+    font-weight: bold !important; /* Make text bold */
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* Hover styling for pagination buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #224aa1; /* Slightly lighter background on hover */
+    color: white !important; /* Ensure white text on hover */
+    font-weight: bold !important; /* Ensure bold text on hover */
+}
+
+/* Current page button styling */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #224aa1 !important; /* Darker blue for current page */
+    color: white !important; /* Force white text */
+    font-weight: bold !important; /* Make text bold */
+    border: none; /* Remove border for a cleaner look */
+}
+
+/* Disabled button styling (Previous and Next when not available) */
+{#.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {#}
+{#    color: white !important; /* Light gray text for disabled state */#}
+{#    background-color: #0033A0 !important; /* Keep dark background */#}
+{#    font-weight: normal !important; /* Remove bold from disabled */#}
+{#    pointer-events: none; /* Disable pointer events */#}
+{#}#}
+
+
     </style>
     <!-- DataTables CSS CDN -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
