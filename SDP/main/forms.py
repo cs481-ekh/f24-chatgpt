@@ -6,6 +6,7 @@ class SeniorDesignForm(forms.ModelForm):
         model = SeniorDesign
         fields = [
             'Department',
+            'Semester_Year',
             'Poster_title',
             'Abstract',
             'num_team_members',

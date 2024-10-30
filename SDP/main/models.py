@@ -2,6 +2,7 @@ from django.db import models
 
 class SeniorDesign(models.Model):
     Department = models.CharField(max_length=100, default='Department X')
+    Semester_Year = models.CharField(max_length=100, default='Fall 2024')
     Poster_title = models.CharField(max_length=255, default='Title')
     Abstract = models.TextField(max_length=900, default='Abstract')
     num_team_members = models.IntegerField(default=1)
