@@ -42,16 +42,14 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* Button container styles */
         .button-container {
             display: flex;
-            gap: 20px; /* Space between buttons */
+            gap: 20px;
             position: absolute;
             top: 140px;
             right: 75px;
         }
 
-        /* Button styles */
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -66,7 +64,6 @@
             background-color: #224aa1;
         }
 
-        /* Rest of your existing styles... */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -119,7 +116,117 @@
             color: red;
             font-weight: bold;
         }
+
+         /* Custom styling for DataTables features */
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_paginate,
+        .dataTables_wrapper .dataTables_info {
+            color: white; /* Make text white */
+            font-size: 16px; /* Increase font size */
+            padding: 20px;
+            font-weight: bold;
+        }
+
+        .dataTables_wrapper .dataTables_filter label,
+        .dataTables_wrapper .dataTables_length label {
+            color: white; /* Make labels white */
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #0033A0;
+            color: white; /* Make input text white */
+            margin-left: 5px;
+        }
+
+        /* Styling the dropdown select element */
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #0033A0;
+    color: white; /* Main part (closed dropdown) text is white */
+}
+
+/* Styling option text (this will only apply if the browser supports it) */
+.dataTables_wrapper .dataTables_length select option {
+    color: black; /* Open dropdown options text is black */
+    background-color: #ffffff; /* White background for options */
+}
+
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 5px 10px;
+            margin-left: 2px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f06329;
+            color: white; /* Make pagination text white */
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #224aa1;
+            color: white;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #0033A0;
+            color: white; /* Make current page button text white */
+            font-weight: bold;
+        }
+
+        /* Ensure "Showing X to Y of Z entries" text is white */
+        .dataTables_wrapper .dataTables_info {
+            color: white !important;
+            font-size: 16px;
+        }
+
+       /* Base styling for pagination buttons */
+.dataTables_wrapper .dataTables_paginate  {
+    padding: 5px 10px;
+    margin-left: 2px;
+
+    background-color: #0033A0; /* Dark background */
+    color: white !important; /* Force white text */
+    font-weight: bold !important; /* Make text bold */
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* Hover styling for pagination buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #224aa1; /* Slightly lighter background on hover */
+    color: white !important; /* Ensure white text on hover */
+    font-weight: bold !important; /* Ensure bold text on hover */
+}
+
+/* Current page button styling */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #224aa1 !important; /* Darker blue for current page */
+    color: white !important; /* Force white text */
+    font-weight: bold !important; /* Make text bold */
+    border: none; /* Remove border for a cleaner look */
+}
+
+/* Disabled button styling (Previous and Next when not available) */
+{#.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {#}
+{#    color: white !important; /* Light gray text for disabled state */#}
+{#    background-color: #0033A0 !important; /* Keep dark background */#}
+{#    font-weight: normal !important; /* Remove bold from disabled */#}
+{#    pointer-events: none; /* Disable pointer events */#}
+{#}#}
+
+
     </style>
+    <!-- DataTables CSS CDN -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 </head>
 <body>
     <div class="banner">
@@ -132,114 +239,73 @@
         </div>
     </div>
 
-    <!-- Button container with role-based visibility -->
     <div class="button-container">
         {% if not is_planner %}
         <a href="{% url 'new_team_entry' %}" class="btn">Add New Team</a>
         {% endif %}
         <a href="{% url 'export_csv' %}" class="btn">Export to CSV</a>
     </div>
-    
+
     <h1>Senior Design Projects</h1>
 
-    <table>
-        <tr>
-            <th>Department</th>
-            <th>Poster Title</th>
-            <th>Abstract</th>
-            <th>Number of Team Members</th>
-            <th>Team Member Names</th>
-            <th>Need Power</th>
-            <th>Need More </th>
-            <th>Table</th>
-            <th>Easle</th>
-            <th>Foamboard</th>
-            <th>Description</th>
-            <th>Additional Comments</th>
-            <th>Sponsor Logos</th>
-            <th>Pictures</th>
-            <th>Sponsor Name</th>
-            <th>Affiliation</th>
-            <th>Contact Email</th> 
-        </tr>
-
-        <!-- Loop through senior design projects -->
-        {% for senior_design in senior_designs %}
-        <tr>
-            <td>{{ senior_design.Department }}</td>
-            <td>{{ senior_design.Poster_title }}</td>
-            <td>{{ senior_design.Abstract }}</td>
-            <td>{{ senior_design.num_team_members }}</td>
-            <td>{{ senior_design.team_member_names }}</td>
-
-            <td>
-                {% if senior_design.Need_power %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.two_outlets %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.table %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.easle %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.foam %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>{{ senior_design.Brief_description }}</td>
-
-            <td>{{ senior_design.Any_additional_comments }}</td>
-
-            <td>
-                {% if senior_design.sponsor_logos %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>
-                {% if senior_design.pictures %}
-                    <span class="boolean-yes">Yes</span>
-                {% else %}
-                    <span class="boolean-no">No</span>
-                {% endif %}
-            </td>
-
-            <td>{{ senior_design.sponsor_first_last_name }}</td>
-
-            <td>{{ senior_design.sponsor_affiliation }}</td>
-            
-            <td>{{ senior_design.contact_email }}</td>
-        </tr>
-        {% endfor %}
+    <table id="projects-table">
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Poster Title</th>
+                <th>Abstract</th>
+                <th>Number of Team Members</th>
+                <th>Team Member Names</th>
+                <th>Need Power</th>
+                <th>Need More </th>
+                <th>Table</th>
+                <th>Easle</th>
+                <th>Foamboard</th>
+                <th>Description</th>
+                <th>Additional Comments</th>
+                <th>Sponsor Logos</th>
+                <th>Pictures</th>
+                <th>Sponsor Name</th>
+                <th>Affiliation</th>
+                <th>Contact Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for senior_design in senior_designs %}
+            <tr>
+                <td>{{ senior_design.Department }}</td>
+                <td>{{ senior_design.Poster_title }}</td>
+                <td>{{ senior_design.Abstract }}</td>
+                <td>{{ senior_design.num_team_members }}</td>
+                <td>{{ senior_design.team_member_names }}</td>
+                <td>{% if senior_design.Need_power %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.two_outlets %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.table %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.easle %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.foam %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{{ senior_design.Brief_description }}</td>
+                <td>{{ senior_design.Any_additional_comments }}</td>
+                <td>{% if senior_design.sponsor_logos %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{% if senior_design.pictures %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                <td>{{ senior_design.sponsor_first_last_name }}</td>
+                <td>{{ senior_design.sponsor_affiliation }}</td>
+                <td>{{ senior_design.contact_email }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
+
+    <!-- jQuery and DataTables JS CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#projects-table').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true
+            });
+        });
+    </script>
 </body>
 </html>
-
