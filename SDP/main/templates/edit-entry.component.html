@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Entry</title>
+    <style>
+        .banner {
+            background-color: #D64309;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: -50px;
+        }
+
+        .sdp-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-header {
+            padding-left: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding-top: 100px;
+            background-color: #0033A0;
+        }
+
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 20px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .btn-submit {
+            background-color: #f06329;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn-submit:hover {
+            background-color: #224aa1;
+        }
+
+        .btn-cancel {
+            background-color: #cccccc;
+            color: #333;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+            text-decoration: none;
+        }
+
+        .btn-cancel:hover {
+            background-color: #999999;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="sdp-logo">
+            {% load static %}
+            <img src="{% static 'images/bsu-sdp-button.png' %}" alt="senior design logo">
+        </div>
+        <div class="logo-header">
+            <h1>Senior Showcase Manager</h1>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h1>Edit Entry</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-submit">Save Changes</button>
+            <a href="{% url 'main' %}" class="btn-cancel">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
