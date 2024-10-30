@@ -252,6 +252,7 @@
     <thead>
         <tr>
             <th>Department</th>
+            <th>Semester Year</th>
             <th>Poster Title</th>
             <th>Abstract</th>
             <th>Number of Team Members</th>
@@ -275,6 +276,7 @@
         {% for senior_design in senior_designs %}
         <tr>
             <td>{{ senior_design.Department }}</td>
+            <td>{{ senior_design.Semester_Year }}</td>
             <td>{{ senior_design.Poster_title }}</td>
             <td>{{ senior_design.Abstract }}</td>
             <td>{{ senior_design.num_team_members }}</td>
