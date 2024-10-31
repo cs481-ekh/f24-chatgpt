@@ -64,48 +64,54 @@
             background-color: #224aa1;
         }
 
-        table {
+       table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             background-color: #ffffff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 12px; /* Decrease font size */
+            table-layout: auto; /* Allows columns to resize based on content */
         }
 
-        table, th, td {
+       table, th, td {
             border: 1px solid #ddd;
         }
 
         th, td {
-            padding: 12px 15px;
+            padding: 8px 10px; /* Reduce padding */
             text-align: left;
             font-family: 'Arial', sans-serif;
+            word-wrap: break-word; /* Wrap long text */
         }
 
         th {
             background-color: #707172;
             color: white;
-            font-size: 12px;
             text-transform: uppercase;
         }
 
         td {
-            font-size: 14px;
             color: #333;
         }
 
-        tr:nth-child(even) {
-            background-color: lightgray;
+        /* Set max width for certain columns to prevent overflow */
+        th:nth-child(13), td:nth-child(13), /* Additional Comments */
+        th:nth-child(12), td:nth-child(12), /* Description */
+        th:nth-child(17), td:nth-child(17)  /* Contact Email */ {
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* Prevent text from wrapping in these columns */
         }
 
-        tr:nth-child(odd) {
-            background-color: #f1f1f1;
+        /* Horizontal Scroll for Smaller Screens */
+        @media (max-width: 1200px) {
+            .dataTables_wrapper {
+                overflow-x: auto;
+            }
         }
 
-        tr:hover {
-            background-color: #f1f1f1;
-            cursor: pointer;
-        }
 
         .boolean-yes {
             color: green;
@@ -144,20 +150,20 @@
         }
 
         /* Styling the dropdown select element */
-.dataTables_wrapper .dataTables_length select {
-    border: 1px solid #ddd;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #0033A0;
-    color: white; /* Main part (closed dropdown) text is white */
-}
+        .dataTables_wrapper .dataTables_length select {
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #0033A0;
+            color: white; /* Main part (closed dropdown) text is white */
+        }
 
-/* Styling option text (this will only apply if the browser supports it) */
-.dataTables_wrapper .dataTables_length select option {
-    color: black; /* Open dropdown options text is black */
-    background-color: #ffffff; /* White background for options */
-}
+        /* Styling option text (this will only apply if the browser supports it) */
+        .dataTables_wrapper .dataTables_length select option {
+            color: black; /* Open dropdown options text is black */
+            background-color: #ffffff; /* White background for options */
+        }
 
 
         .dataTables_wrapper .dataTables_paginate .paginate_button {
@@ -189,107 +195,111 @@
         }
 
        /* Base styling for pagination buttons */
-.dataTables_wrapper .dataTables_paginate  {
-    padding: 5px 10px;
-    margin-left: 2px;
+        .dataTables_wrapper .dataTables_paginate  {
+            padding: 5px 10px;
+            margin-left: 2px;
 
-    background-color: #0033A0; /* Dark background */
-    color: white !important; /* Force white text */
-    font-weight: bold !important; /* Make text bold */
-    text-decoration: none;
-    font-size: 16px;
-}
+            background-color: #0033A0; /* Dark background */
+            color: white !important; /* Force white text */
+            font-weight: bold !important; /* Make text bold */
+            text-decoration: none;
+            font-size: 16px;
+        }
 
-/* Hover styling for pagination buttons */
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background-color: #224aa1; /* Slightly lighter background on hover */
-    color: white !important; /* Ensure white text on hover */
-    font-weight: bold !important; /* Ensure bold text on hover */
-}
+        /* Hover styling for pagination buttons */
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #224aa1; /* Slightly lighter background on hover */
+            color: white !important; /* Ensure white text on hover */
+            font-weight: bold !important; /* Ensure bold text on hover */
+        }
 
-/* Current page button styling */
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background-color: #224aa1 !important; /* Darker blue for current page */
-    color: white !important; /* Force white text */
-    font-weight: bold !important; /* Make text bold */
-    border: none; /* Remove border for a cleaner look */
-}
+        /* Current page button styling */
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #224aa1 !important; /* Darker blue for current page */
+            color: white !important; /* Force white text */
+            font-weight: bold !important; /* Make text bold */
+            border: none; /* Remove border for a cleaner look */
+        }
 
-/* Disabled button styling (Previous and Next when not available) */
-{#.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {#}
-{#    color: white !important; /* Light gray text for disabled state */#}
-{#    background-color: #0033A0 !important; /* Keep dark background */#}
-{#    font-weight: normal !important; /* Remove bold from disabled */#}
-{#    pointer-events: none; /* Disable pointer events */#}
-{#}#}
+        /* Disabled button styling (Previous and Next when not available) */
+        {#.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {#}
+        {#    color: white !important; /* Light gray text for disabled state */#}
+        {#    background-color: #0033A0 !important; /* Keep dark background */#}
+        {#    font-weight: normal !important; /* Remove bold from disabled */#}
+        {#    pointer-events: none; /* Disable pointer events */#}
+        {#}#}
 
-/* Modal Background */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-}
+        /* Modal Background */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
 
-/* Modal Content */
-.modal-content {
-    background-color: #0033A0;
-    color: white;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+        /* Modal Content */
+        .modal-content {
+            background-color: #0033A0;
+            color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-/* Close Button */
-.close-button {
-    color: white;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        /* Close Button */
+        .close-button {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-.close-button:hover {
-    color: #f06329;
-}
+        .close-button:hover {
+            color: #f06329;
+        }
 
-/* Confirm and Cancel Buttons */
-.btn-confirm, .btn-cancel {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    width: 100px;
-}
+        /* Confirm and Cancel Buttons */
+        .btn-confirm, .btn-cancel {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100px;
+        }
 
-.btn-confirm {
-    background-color: #d9534f;
-    color: white;
-    margin-right: 10px;
-}
+        .btn-confirm {
+            background-color: #d9534f;
+            color: white;
+            margin-right: 10px;
+        }
 
-.btn-confirm:hover {
-    background-color: #c9302c;
-}
+        .btn-confirm:hover {
+            background-color: #c9302c;
+        }
 
-.btn-cancel {
-    background-color: #5bc0de;
-    color: white;
-}
+        .btn-cancel {
+            background-color: #5bc0de;
+            color: white;
+        }
 
-.btn-cancel:hover {
-    background-color: #31b0d5;
-}
+        .btn-cancel:hover {
+            background-color: #31b0d5;
+        }
 
+        .space{
+            padding: 5px;
+        }
+        }
     </style>
     <!-- DataTables CSS CDN -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
@@ -314,63 +324,66 @@
 
     <h1>Senior Design Projects</h1>
 
-    <table id="projects-table">
-    <thead>
-        <tr>
-            <th>Department</th>
-            <th>Semester Year</th>
-            <th>Poster Title</th>
-            <th>Abstract</th>
-            <th>Number of Team Members</th>
-            <th>Team Member Names</th>
-            <th>Need Power</th>
-            <th>Need More</th>
-            <th>Table</th>
-            <th>Easle</th>
-            <th>Foamboard</th>
-            <th>Description</th>
-            <th>Additional Comments</th>
-            <th>Sponsor Logos</th>
-            <th>Pictures</th>
-            <th>Sponsor Name</th>
-            <th>Affiliation</th>
-            <th>Contact Email</th>
-            <th>Actions</th> <!-- New column for action buttons -->
-        </tr>
-    </thead>
-    <tbody>
-        {% for senior_design in senior_designs %}
-        <tr>
-            <td>{{ senior_design.Department }}</td>
-            <td>{{ senior_design.Semester_Year }}</td>
-            <td>{{ senior_design.Poster_title }}</td>
-            <td>{{ senior_design.Abstract }}</td>
-            <td>{{ senior_design.num_team_members }}</td>
-            <td>{{ senior_design.team_member_names }}</td>
-            <td>{% if senior_design.Need_power %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-            <td>{% if senior_design.two_outlets %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-            <td>{% if senior_design.table %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-            <td>{% if senior_design.easle %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-            <td>{% if senior_design.foam %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-            <td>{{ senior_design.Brief_description }}</td>
-            <td>{{ senior_design.Any_additional_comments }}</td>
-            <td>{% if senior_design.sponsor_logos %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-            <td>{% if senior_design.pictures %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-            <td>{{ senior_design.sponsor_first_last_name }}</td>
-            <td>{{ senior_design.sponsor_affiliation }}</td>
-            <td>{{ senior_design.contact_email }}</td>
-            <td>
-    <!-- Edit Button -->
-    <a href="{% url 'edit_entry' senior_design.id %}" class="btn">Edit</a>
+    <div style="overflow-x: auto;">
 
-    <!-- Delete Button triggers the modal -->
-    <button type="button" class="btn" onclick="openModal('{% url 'delete_team_entry' senior_design.id %}')">Delete</button>
-</td>
+            <table id="projects-table">
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Semester Year</th>
+                    <th>Poster Title</th>
+                    <th>Abstract</th>
+                    <th>Number of Team Members</th>
+                    <th>Team Member Names</th>
+                    <th>Need Power</th>
+                    <th>Need More</th>
+                    <th>Table</th>
+                    <th>Easle</th>
+                    <th>Foam board</th>
+                    <th>Description</th>
+                    <th>Additional Comments</th>
+                    <th>Sponsor Logos</th>
+                    <th>Pictures</th>
+                    <th>Sponsor Name</th>
+                    <th>Affiliation</th>
+                    <th>Contact Email</th>
+                    <th>Actions</th> <!-- New column for action buttons -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for senior_design in senior_designs %}
+                <tr>
+                    <td>{{ senior_design.Department }}</td>
+                    <td>{{ senior_design.Semester_Year }}</td>
+                    <td>{{ senior_design.Poster_title }}</td>
+                    <td>{{ senior_design.Abstract }}</td>
+                    <td>{{ senior_design.num_team_members }}</td>
+                    <td>{{ senior_design.team_member_names }}</td>
+                    <td>{% if senior_design.Need_power %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                    <td>{% if senior_design.two_outlets %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                    <td>{% if senior_design.table %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                    <td>{% if senior_design.easle %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                    <td>{% if senior_design.foam %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                    <td>{{ senior_design.Brief_description }}</td>
+                    <td>{{ senior_design.Any_additional_comments }}</td>
+                    <td>{% if senior_design.sponsor_logos %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                    <td>{% if senior_design.pictures %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
+                    <td>{{ senior_design.sponsor_first_last_name }}</td>
+                    <td>{{ senior_design.sponsor_affiliation }}</td>
+                    <td>{{ senior_design.contact_email }}</td>
+                    <td>
+            <!-- Edit Button -->
+            <a href="{% url 'edit_entry' senior_design.id %}" class="btn">Edit</a>
+            <div class="space"> </div>
+            <!-- Delete Button triggers the modal -->
+            <button type="button" class="btn" onclick="openModal('{% url 'delete_team_entry' senior_design.id %}')">Delete</button>
+        </td>
 
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 
     <!-- jQuery and DataTables JS CDN -->
@@ -399,6 +412,7 @@
         <form id="deleteForm" method="POST">
             {% csrf_token %}
             <button type="submit" class="btn-confirm">Delete</button>
+
             <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
         </form>
     </div>
