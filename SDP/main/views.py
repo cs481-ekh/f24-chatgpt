@@ -5,7 +5,7 @@ from .forms import SeniorDesignForm
 from django.http import HttpResponse
 import csv
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect  # Add this line if you prefer HttpResponseRedirect
+from django.http import HttpResponseRedirect  
 from django.shortcuts import redirect, get_object_or_404, render
 
 def is_user(user):
