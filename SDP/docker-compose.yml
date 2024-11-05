@@ -44,7 +44,7 @@ services:
     volumes:
       - .:/SDP
     ports:
-      - "8000:8000"
+      - "${HOST_PORT:-8000}:8000"
     depends_on:
       - db
     environment:
