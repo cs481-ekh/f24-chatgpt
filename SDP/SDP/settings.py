@@ -16,6 +16,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Get APP_ROOT from environment variable
+APP_ROOT = os.getenv('APP_ROOT', '')  # Empty string as default when not set
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -26,11 +28,13 @@ SECRET_KEY = 'django-insecure-os1$fin$yelt#0yo@5ti!^hsysvb=9_=n8_p*-y6%5b%t%83#z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Modified ALLOWED_HOSTS to include SDP server
+ALLOWED_HOSTS = ['localhost', 'sdp.boisestate.edu']
 
+# Added CSRF trusted origins
+CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1', 'https://sdp.boisestate.edu']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,10 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SDP.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -83,13 +83,9 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimiliarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -102,10 +98,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -114,22 +106,17 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
+# Modified STATIC_URL to include APP_ROOT
+STATIC_URL = f"{APP_ROOT}static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Using named route instead of raw path
 LOGIN_REDIRECT_URL = 'main'
 
 AUTH_USER_MODEL = 'login.CustomUser'
 
-MEDIA_URL = '/media/'
-
+# Modified MEDIA_URL to include APP_ROOT
+MEDIA_URL = f"{APP_ROOT}media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

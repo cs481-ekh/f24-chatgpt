@@ -16,10 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
 
-urlpatterns = [
-    
+# Original URL patterns moved to site_patterns
+site_patterns = [
     path('admin/', admin.site.urls),
     path('', include('login.urls')),
-    path('main/', include('main.urls')), 
+    path('main/', include('main.urls')),
+]
+
+# New urlpatterns that includes site_patterns with APP_ROOT prefix
+urlpatterns = [
+    path(f'{settings.APP_ROOT}', include(site_patterns))
 ]
