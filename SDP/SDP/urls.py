@@ -25,7 +25,7 @@ site_patterns = [
     path('main/', include('main.urls')),
 ]
 
-# New urlpatterns that includes site_patterns with APP_ROOT prefix
+# Modified urlpatterns to handle empty APP_ROOT case
 urlpatterns = [
-    path(f'{settings.APP_ROOT}', include(site_patterns))
+    path(f'{settings.APP_ROOT}/' if settings.APP_ROOT else '', include(site_patterns))
 ]

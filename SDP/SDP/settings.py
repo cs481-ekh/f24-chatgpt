@@ -19,6 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Get APP_ROOT from environment variable
 APP_ROOT = 'f24-ChatGPT' 
 #APP_ROOT = 's4-ChatGPT'
+APP_ROOT = os.getenv('APP_ROOT', '')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
