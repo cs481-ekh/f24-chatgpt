@@ -22,4 +22,4 @@ class SeniorDesign(models.Model):
     
 
     def __str__(self):
-        return self.Team_abbreviation
+        return self.Poster_title
