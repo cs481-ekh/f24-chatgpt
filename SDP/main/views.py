@@ -28,42 +28,50 @@ def export_csv(request):
     response['Content-Disposition'] = 'attachment; filename="senior_designs.csv"'
     
     writer = csv.writer(response)
-    # Write the header row
+    # Write the header row with the correct field names from your model
     writer.writerow([
-        'Team Abbreviation',
-        'Location',
+        'Department',
+        'Semester/Year',
         'Poster Title',
         'Abstract',
         'Number of Team Members',
         'Team Member Names',
-        'Need Power',
-        'Two Outlets',
+        'Needs Power',
+        'Needs More',
         'Table',
-        'Foamboard',
-        'Clips',
-        'Large Presentation',
+        'Easel',
+        'Foam',
+        'Brief Description',
+        'Additional Comments',
         'Sponsor Logos',
-        'Pictures'
+        'Pictures',
+        'Sponsor Name',
+        'Sponsor Affiliation',
+        'Contact Email'
     ])
     
-    # Write the data rows
+    # Write the data rows using the correct model fields
     senior_designs = SeniorDesign.objects.all()
     for design in senior_designs:
         writer.writerow([
-            design.Team_abbreviation,
-            design.Location,
+            design.Department,
+            design.Semester_Year,
             design.Poster_title,
             design.Abstract,
             design.num_team_members,
             design.team_member_names,
             'Yes' if design.Need_power else 'No',
-            'Yes' if design.two_outlets else 'No',
+            'Yes' if design.Need_more else 'No',
             'Yes' if design.table else 'No',
-            'Yes' if design.foamboard else 'No',
-            'Yes' if design.clips else 'No',
-            'Yes' if design.large_presentation else 'No',
+            'Yes' if design.easle else 'No',
+            'Yes' if design.foam else 'No',
+            design.Brief_description,
+            design.Any_additional_comments,
             'Yes' if design.sponsor_logos else 'No',
-            'Yes' if design.pictures else 'No'
+            'Yes' if design.pictures else 'No',
+            design.sponsor_first_last_name,
+            design.sponsor_affiliation,
+            design.contact_email
         ])
     
     return response
