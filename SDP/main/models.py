@@ -1,25 +1,39 @@
 from django.db import models
 
+class Student(models.Model):
+    student_first_name = models.CharField(max_length=100)
+    student_last_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.student_first_name} {self.student_last_name}"
+
+class Sponsor(models.Model):
+    sponsor_first_name = models.CharField(max_length=100)
+    sponsor_last_name = models.CharField(max_length=100)
+    affiliation = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100, blank=True)
+
+    def __str__(self):
+        return f"{self.sponsor_first_name} {self.sponsor_last_name}"
+
 class SeniorDesign(models.Model):
-    Department = models.CharField(max_length=100, default='Department X')
-    Semester_Year = models.CharField(max_length=100, default='Fall 2024')
-    Poster_title = models.CharField(max_length=255, default='Title')
-    Abstract = models.TextField(max_length=900, default='Abstract')
-    num_team_members = models.IntegerField(default=1)
-    team_member_names = models.TextField(default='Name')
-    Need_power = models.BooleanField(default=False)
-    Need_more = models.BooleanField(default=False)
+    department = models.CharField(max_length=100, default='Department')
+    semester_year = models.CharField(max_length=100, default='Semester Year')
+    poster_title = models.CharField(max_length=255,default='Poster Title')
+    abstract = models.TextField(max_length=900, default='Abstract')
+    need_power = models.BooleanField(default=False)
+    need_more = models.BooleanField(default=False)
     table = models.BooleanField(default=False)
     easle = models.BooleanField(default=False)
     foam = models.BooleanField(default=False)
-    Brief_description = models.TextField(max_length=900, default='Abstract')
-    Any_additional_comments = models.TextField(max_length=900, default='Abstract')
+    special_requirements = models.TextField(max_length=900, blank=True)
+    additional_comments = models.TextField(max_length=900, blank=True)
     sponsor_logos = models.BooleanField(default=False)
     pictures = models.BooleanField(default=False)
-    sponsor_first_last_name = models.TextField(default='Name')
-    sponsor_affiliation = models.TextField(default='Name')
-    contact_email = models.TextField(default='Name')
-    
+    ada_compliance = models.BooleanField(default=False)
+
+    students = models.ManyToManyField(Student, related_name='senior_design_projects')
+    sponsors = models.ManyToManyField(Sponsor, related_name='sponsored_projects')
 
     def __str__(self):
-        return self.Poster_title
+        return self.poster_title

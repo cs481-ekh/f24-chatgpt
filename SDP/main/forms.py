@@ -1,30 +1,29 @@
 from django import forms
-from .models import SeniorDesign
+from .models import SeniorDesign, Student, Sponsor
 
 class SeniorDesignForm(forms.ModelForm):
     class Meta:
         model = SeniorDesign
         fields = [
-            'Department',
-            'Semester_Year',
-            'Poster_title',
-            'Abstract',
-            'num_team_members',
-            'team_member_names',
-            'Need_power',
-            'Need_more',
+            'department',
+            'semester_year',
+            'poster_title',
+            'abstract',
+            'need_power',
+            'need_more',
             'table',
             'easle',
             'foam',
-            'Brief_description',
-            'Any_additional_comments',
+            'special_requirements',
+            'additional_comments',
             'sponsor_logos',
             'pictures',
-            'sponsor_first_last_name',
-            'sponsor_affiliation',
-            'contact_email'
+            'ada_compliance',
+            'students',
+            'sponsors',
         ]
         
     def clean(self):
         cleaned_data = super().clean()
+        # Add any custom validation logic if needed
         return cleaned_data
