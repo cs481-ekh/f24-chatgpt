@@ -25,6 +25,7 @@ def export_csv(request):
     response['Content-Disposition'] = 'attachment; filename="senior_designs.csv"'
 
     writer = csv.writer(response)
+    # Write the header row
     writer.writerow([
         'Department',
         'Semester/Year',
@@ -33,19 +34,16 @@ def export_csv(request):
         'Number of Team Members',
         'Team Member Names',
         'Need Power',
-        'Need More',
+        'Two Outlets',
         'Table',
-        'Easel',
-        'Foam Board',
-        'special_requirements',
-        'Additional Comments',
+        'Foamboard',
+        'Clips',
+        'Large Presentation',
         'Sponsor Logos',
-        'Pictures',
-        'Sponsor First/Last Name',
-        'Sponsor Affiliation',
-        'Contact Email'
+        'Pictures'
     ])
-
+    
+    # Write the data rows
     senior_designs = SeniorDesign.objects.all()
     for design in senior_designs:
         writer.writerow([
@@ -58,10 +56,9 @@ def export_csv(request):
             'Yes' if design.Need_power else 'No',
             'Yes' if design.Need_more else 'No',
             'Yes' if design.table else 'No',
-            'Yes' if design.easle else 'No',
-            'Yes' if design.foam else 'No',
-            design.special_requirements,
-            design.Any_additional_comments,
+            'Yes' if design.foamboard else 'No',
+            'Yes' if design.clips else 'No',
+            'Yes' if design.large_presentation else 'No',
             'Yes' if design.sponsor_logos else 'No',
             'Yes' if design.pictures else 'No',
             design.sponsor_first_last_name,
