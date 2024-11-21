@@ -25,45 +25,51 @@ def export_csv(request):
     response['Content-Disposition'] = 'attachment; filename="senior_designs.csv"'
 
     writer = csv.writer(response)
-    # Write the header row
     writer.writerow([
         'Department',
-        'Semester/Year',
+        'Semester/Year', 
         'Poster Title',
         'Abstract',
-        'Number of Team Members',
-        'Team Member Names',
+        'Number of Students',
+        'Student Names',
         'Need Power',
-        'Two Outlets',
+        'Need More',
         'Table',
-        'Foamboard',
-        'Clips',
-        'Large Presentation',
+        'Easel',
+        'Foam Board',
+        'Special Requirements',
+        'Additional Comments',
         'Sponsor Logos',
-        'Pictures'
+        'Pictures',
+        'ADA Compliance',
+        'Sponsors'
     ])
     
-    # Write the data rows
     senior_designs = SeniorDesign.objects.all()
     for design in senior_designs:
+        # Get student names
+        student_names = ", ".join(str(student) for student in design.students.all())
+        # Get sponsor names
+        sponsor_names = ", ".join(str(sponsor) for sponsor in design.sponsors.all())
+        
         writer.writerow([
-            design.Department,
-            design.Semester_Year,
-            design.Poster_title,
-            design.Abstract,
-            design.num_team_members,
-            design.team_member_names,
-            'Yes' if design.Need_power else 'No',
-            'Yes' if design.Need_more else 'No',
+            design.department,
+            design.semester_year,
+            design.poster_title,
+            design.abstract,
+            design.students.count(),
+            student_names,
+            'Yes' if design.need_power else 'No',
+            'Yes' if design.need_more else 'No',
             'Yes' if design.table else 'No',
-            'Yes' if design.foamboard else 'No',
-            'Yes' if design.clips else 'No',
-            'Yes' if design.large_presentation else 'No',
+            'Yes' if design.easle else 'No',
+            'Yes' if design.foam else 'No',
+            design.special_requirements,
+            design.additional_comments,
             'Yes' if design.sponsor_logos else 'No',
             'Yes' if design.pictures else 'No',
-            design.sponsor_first_last_name,
-            design.sponsor_affiliation,
-            design.contact_email
+            'Yes' if design.ada_compliance else 'No',
+            sponsor_names
         ])
 
     return response
