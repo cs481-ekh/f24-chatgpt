@@ -226,6 +226,38 @@
             background-color: #224aa1;
         }
     </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("students-container");
+        const addRowButton = document.querySelector(".add-row");
+
+        // Event listener for the Add Row button
+        addRowButton.addEventListener("click", function () {
+            // Create a new student row
+            const newRow = document.createElement("div");
+            newRow.classList.add("student-row");
+            newRow.innerHTML = `
+                <input type="text" name="first_name[]" placeholder="Student First Name" required>
+                <input type="text" name="last_name[]" placeholder="Student Last Name" required>
+                <button type="button" class="remove-row">Remove</button>
+            `;
+
+            // Append the new row to the container
+            container.appendChild(newRow);
+        });
+
+        // Event delegation for the Remove buttons
+        container.addEventListener("click", function (event) {
+            if (event.target.classList.contains("remove-row")) {
+                // Remove the respective row
+                event.target.parentElement.remove();
+            }
+        });
+    });
+</script>
+
+
 </head>
 <body>
     <div class="banner">
@@ -245,17 +277,35 @@
             <!-- Row 1 -->
             <div class="form-row">
                 <div class="form-section">
-                    {{ form.Department.label_tag }}{{ form.Department }}
-                    {{ form.Semester_Year.label_tag }}{{ form.Semester_Year }}
-                    {{ form.Poster_title.label_tag }}{{ form.Poster_title }}
-                    {{ form.team_member_names.label_tag }}{{ form.team_member_names }}
-                    {{ form.num_team_members.label_tag }}{{ form.num_team_members }}
-                    {{ form.sponsor_first_last_name.label_tag }}{{ form.sponsor_first_last_name }}
-                    {{ form.sponsor_affiliation.label_tag }}{{ form.sponsor_affiliation }}
-                    {{ form.contact_email.label_tag }}{{ form.contact_email }}
+                    {{ form.department.label_tag }}{{ form.department }}
+                    <div class="form-row">
+                        <div class="form-section">
+                            <label for="semester_year">Semester/Year:</label>
+                            <select id="semester_year" name="semester_year" required>
+                                <option value="fall_2024">Fall 2024</option>
+                                <option value="spring_2025">Spring 2025</option>
+                                <option value="fall_2025">Fall 2025</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    {{ form.poster_title.label_tag }}{{ form.poster_title }}
+                    {{ form.special_requirements.label_tag }}{{ form.special_requirements }}
+                    <label>Student First and Last Names:</label>
+                    <div id="students-container">
+                        <div class="student-row">
+                            <input type="text" name="first_name[]" placeholder="Student First Name" required>
+                            <input type="text" name="last_name[]" placeholder="Student Last Name" required>
+                            <button type="button" class="remove-row">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" class="add-row">+</button>
+                    
                 </div>
+                
+                
                 <div class="form-section">
-                    {{ form.Abstract.label_tag }}{{ form.Abstract }}
+                    {{ form.abstract.label_tag }}{{ form.abstract }}
                     {{ form.Brief_description.label_tag }}{{ form.Brief_description }}
                     {{ form.Any_additional_comments.label_tag }}{{ form.Any_additional_comments }}
                 
@@ -280,12 +330,16 @@
                         {{ form.pictures }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.Need_power.label_tag }}
-                        {{ form.Need_power }}
+                        {{ form.need_power.label_tag }}
+                        {{ form.need_power }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.Need_more.label_tag }}
-                        {{ form.Need_more }}
+                        {{ form.need_more.label_tag }}
+                        {{ form.need_more }}
+                    </div>
+                    <div class="checkbox-group">
+                        {{ form.ada_compliance.label_tag }}
+                        {{ form.ada_compliance }}
                     </div>
                     
                     <div style = "text-align: right;">
