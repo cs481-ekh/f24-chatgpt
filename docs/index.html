@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Design Project Showcase Manager</title>
+    <style>
+        :root {
+            --bsu-blue: #0033A0;
+            --bsu-orange: #D64309;
+            --text-dark: #2C2A29;
+            --bg-light: #f8f9fa;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+        }
+
+        .banner {
+            background-color: var(--bsu-blue);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .banner h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            padding-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: var(--bsu-blue);
+            border-bottom: 3px solid var(--bsu-orange);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .team-member {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .team-member h3 {
+            color: var(--bsu-blue);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .team-member p {
+            color: var(--bsu-orange);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--bsu-orange);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #b53707;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <h1>Senior Design Project Showcase Manager</h1>
+        <a href="https://github.com/f24-ChatGPT/senior-design-project" class="button">View on GitHub</a>
+    </div>
+
+    <div class="container">
+        <section class="section">
+            <h2>Project Abstract</h2>
+            <p>The Senior Design Showcase, hosted by the College of Engineering each semester, allows students to present their capstone projects. However, faculty overseeing these projects face challenges with the current manual data-entry system, which relies on an inefficient, error-prone online spreadsheet. This process becomes particularly burdensome for faculty managing large numbers of student teams, leading to planning delays and frustration.</p>
+            <p>Our project proposes a web application that will streamline data entry and introduce tools to support event planning. By automating many tasks and offering a user-friendly interface, the app will reduce errors, save time, and improve the overall efficiency of organizing the event. This solution will enhance the experience for both faculty and organizers and could serve as a model for other academic departments facing similar challenges.</p>
+        </section>
+
+        <section class="section">
+            <h2>Project Description</h2>
+            <p>We have developed a comprehensive Django-based web application that simplifies the management of senior design showcase projects. Key features include:</p>
+            <ul>
+                <li>Centralized database for storing project information, student details, and sponsor data</li>
+                <li>User-friendly forms for adding and editing project entries</li>
+                <li>Role-based access control distinguishing between planners and regular users</li>
+                <li>Export functionality for generating CSV reports</li>
+                <li>Automated validation to ensure data consistency and completeness</li>
+                <li>Support for managing special requirements (power needs, display equipment, etc.)</li>
+            </ul>
+            
+            <h3>Technical Stack</h3>
+            <ul>
+                <li>Backend: Django framework with SQLite database</li>
+                <li>Frontend: HTML/CSS with Angular components</li>
+                <li>Authentication: Django's built-in auth system with custom user roles</li>
+                <li>Deployment: Configured for hosting on university servers</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Team Members</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h3>Pierce Rodriguez</h3>
+                    <p>Backend Developer</p>
+                </div>
+                <div class="team-member">
+                    <h3>Nolan Stetz</h3>
+                    <p>Backend Developer</p>
+                </div>
+                <div class="team-member">
+                    <h3>Abbie Sarmento</h3>
+                    <p>Frontend Developer</p>
+                </div>
+                <div class="team-member">
+                    <h3>Ben Brindley</h3>
+                    <p>Frontend Developer</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Project Sponsor</h2>
+            <p>Donald Plumlee - College of Engineering, Boise State University</p>
+        </section>
+    </div>
+</body>
+</html>
