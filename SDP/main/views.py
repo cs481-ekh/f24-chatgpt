@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import SeniorDesign
-from .forms import SeniorDesignForm
+from .models import SeniorDesign, Student, Sponsor
+from .forms import SeniorDesignForm, StudentFormSet, SponsorFormSet
 from django.http import HttpResponse
 import csv
 
@@ -79,13 +79,37 @@ def export_csv(request):
 def new_team_entry(request):
     if request.method == 'POST':
         form = SeniorDesignForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        student_formset = StudentFormSet(request.POST, prefix="student")
+        sponsor_formset = SponsorFormSet(request.POST, prefix="sponsor")
+
+        if form.is_valid() and student_formset.is_valid() and sponsor_formset.is_valid():
+            senior_design_instance = form.save(commit=False)
+            senior_design_instance.save()
+
+            # Save students
+            for student_form in student_formset:
+                if student_form.cleaned_data:
+                    student = student_form.save()
+                    senior_design_instance.students.add(student)
+
+            # Save sponsors
+            for sponsor_form in sponsor_formset:
+                if sponsor_form.cleaned_data:
+                    sponsor = sponsor_form.save()
+                    senior_design_instance.sponsors.add(sponsor)
+
             return redirect('main')
     else:
         form = SeniorDesignForm()
+        student_formset = StudentFormSet(prefix="student")
+        sponsor_formset = SponsorFormSet(prefix="sponsor")
 
-    return render(request, 'new-team-entry.component.html', {'form': form})
+    return render(request, 'new-team-entry.component.html', {
+        'form': form,
+        'student_formset': student_formset,
+        'sponsor_formset': sponsor_formset,
+    })
+
 
 @login_required
 @user_passes_test(is_user)

@@ -1,7 +1,51 @@
 from django import forms
 from .models import SeniorDesign, Student, Sponsor
+from django.forms import formset_factory
+
+
+class SponsorForm(forms.ModelForm):
+    class Meta:
+        model = Sponsor
+        fields = ['sponsor_first_name', 'sponsor_last_name', 'affiliation', 'email']
+
+SponsorFormSet = formset_factory(SponsorForm, extra=0)
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['student_first_name', 'student_last_name']
+
+
+StudentFormSet = formset_factory(StudentForm, extra=0)
 
 class SeniorDesignForm(forms.ModelForm):
+
+    SEMESTER_YEAR_CHOICES = [
+        ('fall_2024', 'Fall 2024'),
+        ('spring_2025', 'Spring 2025'),
+        ('fall_2025', 'Fall 2025'),
+    ]
+
+    semester_year = forms.ChoiceField(choices=SEMESTER_YEAR_CHOICES, required=True, label="Semester/Year")
+
+    DEPARTMENT_CHOICES = [
+        ('civil_engineering', 'Civil Engineering'),
+        ('computer_science', 'Computer Science'),
+        ('construction_management', 'Construction Management'),
+        ('electrical_engineering', 'Electrical & Computer Engineering'),
+        ('materials_science', 'Materials Science & Engineering'),
+        ('mechanical_engineering', 'Mechanical & Biomedical Engineering'),
+        ('cyber_operations', 'Cyber Operations and Resilience'),
+        ('engineering_plus', 'Engineering PLUS'),
+    ]
+
+    department = forms.ChoiceField(
+        choices=DEPARTMENT_CHOICES,
+        required=True,
+        label="Department",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = SeniorDesign
         fields = [
