@@ -7,6 +7,8 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.student_first_name} {self.student_last_name}"
 
+    objects = models.Manager()
+
 class Sponsor(models.Model):
     sponsor_first_name = models.CharField(max_length=100)
     sponsor_last_name = models.CharField(max_length=100)
@@ -15,6 +17,8 @@ class Sponsor(models.Model):
 
     def __str__(self):
         return f"{self.sponsor_first_name} {self.sponsor_last_name}"
+
+    objects = models.Manager()
 
 class SeniorDesign(models.Model):
     department = models.CharField(max_length=100, default='Department')
