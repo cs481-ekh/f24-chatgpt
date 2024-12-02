@@ -28,6 +28,24 @@ class SeniorDesignForm(forms.ModelForm):
 
     semester_year = forms.ChoiceField(choices=SEMESTER_YEAR_CHOICES, required=True, label="Semester/Year")
 
+    DEPARTMENT_CHOICES = [
+        ('civil_engineering', 'Civil Engineering'),
+        ('computer_science', 'Computer Science'),
+        ('construction_management', 'Construction Management'),
+        ('electrical_engineering', 'Electrical & Computer Engineering'),
+        ('materials_science', 'Materials Science & Engineering'),
+        ('mechanical_engineering', 'Mechanical & Biomedical Engineering'),
+        ('cyber_operations', 'Cyber Operations and Resilience'),
+        ('engineering_plus', 'Engineering PLUS'),
+    ]
+
+    department = forms.ChoiceField(
+        choices=DEPARTMENT_CHOICES,
+        required=True,
+        label="Department",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = SeniorDesign
         fields = [

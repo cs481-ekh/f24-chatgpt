@@ -225,6 +225,91 @@
         .btn-submit:hover {
             background-color: #224aa1;
         }
+
+        /* General Row Style for Students and Sponsors */
+.student-row,
+.sponsor-row {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Spacing between fields */
+    margin-bottom: 10px; /* Spacing between rows */
+}
+
+/* Input Fields Style */
+.student-row input,
+.sponsor-row input {
+    flex: 1; /* Ensure all input fields take equal space */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #000;
+}
+
+/* Remove Button Style */
+.student-row .remove-row,
+.sponsor-row .remove-row {
+    background-color: #ff4d4d; /* Red background for Remove button */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 0; /* Prevent the button from stretching */
+}
+
+/* Add Row Button Style */
+.add-row,
+.add-sponsor {
+    background-color: #28a745; /* Green background for Add button */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Style for dropdown menus */
+.dropdown select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    color: #000;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    -webkit-appearance: none; /* Remove default dropdown arrow for better styling */
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5" width="10" height="10"><path fill="black" d="M2 0L0 2h4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+}
+
+/* Style for the dropdown container to prevent overflow */
+.dropdown {
+    position: relative;
+}
+
+/* Remove default styles for mobile (optional) */
+.dropdown select:focus {
+    outline: none;
+    border-color: #f06329; /* Highlight border color on focus */
+}
+
+/* Label style for consistency */
+.dropdown label {
+    display: block;
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+
     </style>
 
 <script>
@@ -277,8 +362,12 @@
             <!-- Row 1 -->
             <div class="form-row">
                 <div class="form-section">
+                    <div class="dropdown">
                     {{ form.department.label_tag }}{{ form.department }}
+                    </div>
+                    <div class="dropdown">
                     {{ form.semester_year.label_tag }}{{ form.semester_year }}
+                    </div>
                     
                     {{ form.poster_title.label_tag }}{{ form.poster_title }}
                     {{ form.special_requirements.label_tag }}{{ form.special_requirements }}
@@ -294,23 +383,12 @@
                         {{ sponsor_formset.management_form }}
                     </div>
                     <div id="sponsor-template" class="sponsor-row" style="display: none; margin-bottom: 15px;">
-                    <div>
-                        <label for="sponsor_first_name">Sponsor First Name:</label>
-                        <input type="text" name="sponsor_first_name[]" placeholder="Sponsor First Name">
-                    </div>
-                    <div>
-                        <label for="sponsor_last_name">Sponsor Last Name:</label>
-                        <input type="text" name="sponsor_last_name[]" placeholder="Sponsor Last Name">
-                    </div>
-                    <div>
-                        <label for="affiliation">Affiliation:</label>
-                        <input type="text" name="affiliation[]" placeholder="Affiliation">
-                    </div>
-                    <div>
-                        <label for="email">Email:</label>
-                        <input type="email" name="email[]" placeholder="Email">
-                    </div>
-                    <button type="button" class="remove-sponsor" style="background-color: #ff4d4d; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; margin-top: 10px;">Remove</button>
+                    <input type="text" name="sponsor_first_name[]" placeholder="Sponsor First Name" required>
+        <input type="text" name="sponsor_last_name[]" placeholder="Sponsor Last Name" required>
+        <input type="text" name="affiliation[]" placeholder="Affiliation" required>
+        <input type="email" name="email[]" placeholder="Email" required>
+        <button type="button" class="remove-row">Remove</button>
+
                 </div>
                     <button type="button" class="add-sponsor" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-top: 10px;">Add Sponsor</button>
 

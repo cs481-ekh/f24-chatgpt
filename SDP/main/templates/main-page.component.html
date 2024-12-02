@@ -338,47 +338,23 @@
                     <th>Semester Year</th>
                     <th>Poster Title</th>
                     <th>Abstract</th>
-                    <th>Number of Team Members</th>
                     <th>Team Member Names</th>
-                    <th>Need Power</th>
-                    <th>Need More</th>
-                    <th>Table</th>
-                    <th>Easle</th>
-                    <th>Foam board</th>
-                    <th>Description</th>
-                    <th>Additional Comments</th>
-                    <th>Sponsor Logos</th>
-                    <th>Pictures</th>
-                    <th>Sponsor Name</th>
-                    <th>Affiliation</th>
-                    <th>Contact Email</th>
                     <th>Actions</th> <!-- New column for action buttons -->
                 </tr>
             </thead>
             <tbody>
                 {% for senior_design in senior_designs %}
                 <tr>
-                    <td>{{ senior_design.Department }}</td>
-                    <td>{{ senior_design.Semester_Year }}</td>
-                    <td>{{ senior_design.Poster_title }}</td>
-                    <td>{{ senior_design.Abstract }}</td>
-                    <td>{{ senior_design.num_team_members }}</td>
+                    <td>{{ senior_design.department }}</td>
+                    <td>{{ senior_design.semester_year }}</td>
+                    <td>{{ senior_design.poster_title }}</td>
+                    <td>{{ senior_design.abstract }}</td>
+
                     <td>{{ senior_design.team_member_names }}</td>
-                    <td>{% if senior_design.Need_power %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-                    <td>{% if senior_design.two_outlets %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-                    <td>{% if senior_design.table %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-                    <td>{% if senior_design.easle %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-                    <td>{% if senior_design.foam %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-                    <td>{{ senior_design.Brief_description }}</td>
-                    <td>{{ senior_design.Any_additional_comments }}</td>
-                    <td>{% if senior_design.sponsor_logos %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-                    <td>{% if senior_design.pictures %}<span class="boolean-yes">Yes</span>{% else %}<span class="boolean-no">No</span>{% endif %}</td>
-                    <td>{{ senior_design.sponsor_first_last_name }}</td>
-                    <td>{{ senior_design.sponsor_affiliation }}</td>
-                    <td>{{ senior_design.contact_email }}</td>
+
                     <td>
             <!-- Edit Button -->
-            <a href="{% url 'edit_entry' senior_design.id %}" class="btn">Edit</a>
+            <a href="{% url 'edit_entry' senior_design.id %}" class="btn">More Info/Edit</a>
             <div class="space"> </div>
             <!-- Delete Button triggers the modal -->
             <button type="button" class="btn" onclick="openModal('{% url 'delete_team_entry' senior_design.id %}')">Delete</button>
