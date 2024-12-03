@@ -557,83 +557,69 @@
     </style>
     
     <script>
-   document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById('newTeamForm');
+        document.addEventListener("DOMContentLoaded", function() {
     const studentsContainer = document.getElementById("students-container");
-        const sponsorsContainer = document.getElementById("sponsors-container");
-        
-        // Student row template
-        function createStudentRow(index) {
-    return `
-        <div class="student-row">
-            <input type="text" name="student-${index}-student_first_name" placeholder="Student First Name" required>
-            <input type="text" name="student-${index}-student_last_name" placeholder="Student Last Name" required>
-            <input type="hidden" name="students" value="">
-            <button type="button" class="remove-row">Remove</button>
-        </div>
-    `;
-}
+    const sponsorsContainer = document.getElementById("sponsors-container");
+    
+    // Function to create student row
+    function createStudentRow() {
+        return `
+            <div class="student-row">
+                <input type="text" name="student_first_name[]" placeholder="Student First Name" required>
+                <input type="text" name="student_last_name[]" placeholder="Student Last Name" required>
+                <button type="button" class="remove-row" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px;">Remove</button>
+            </div>
+        `;
+    }
 
-function createSponsorRow(index) {
-    return `
-        <div class="sponsor-row">
-            <input type="text" name="sponsor-${index}-sponsor_first_name" placeholder="Sponsor First Name" required>
-            <input type="text" name="sponsor-${index}-sponsor_last_name" placeholder="Last Name" required>
-            <input type="text" name="sponsor-${index}-affiliation" placeholder="Affiliation" required>
-            <input type="email" name="sponsor-${index}-email" placeholder="Email" required>
-            <input type="hidden" name="sponsors" value="">
-            <button type="button" class="remove-row">Remove</button>
-        </div>
-    `;
-}
-    
-          // Add Student
-    document.querySelector(".add-row").addEventListener("click", function() {
-        const totalForms = document.getElementById('id_student-TOTAL_FORMS');
-        const index = parseInt(totalForms.value);
-        studentsContainer.insertAdjacentHTML('beforeend', createStudentRow(index));
-        totalForms.value = index + 1;
-    });
-    
-        // Add Sponsor
-        document.querySelector(".add-sponsor").addEventListener("click", function() {
-            const totalForms = document.getElementById('id_sponsor-TOTAL_FORMS');
-            const index = parseInt(totalForms.value);
-            sponsorsContainer.insertAdjacentHTML('beforeend', createSponsorRow(index));
-            totalForms.value = index + 1;
+    // Function to create sponsor row
+    function createSponsorRow() {
+        return `
+            <div class="sponsor-row">
+                <input type="text" name="sponsor_first_name[]" placeholder="Sponsor First Name" required>
+                <input type="text" name="sponsor_last_name[]" placeholder="Sponsor Last Name" required>
+                <input type="text" name="affiliation[]" placeholder="Affiliation" required>
+                <input type="email" name="email[]" placeholder="Email" required>
+                <button type="button" class="remove-row" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px;">Remove</button>
+            </div>
+        `;
+    }
+
+    // Make sure we only add one event listener
+    const addStudentButton = document.querySelector(".add-row");
+    if (addStudentButton) {
+        // Remove any existing listeners first
+        const newButton = addStudentButton.cloneNode(true);
+        addStudentButton.parentNode.replaceChild(newButton, addStudentButton);
+        
+        newButton.addEventListener("click", function() {
+            studentsContainer.insertAdjacentHTML('beforeend', createStudentRow());
         });
-    
-         // Remove Student
+    }
+
+    // Add Sponsor
+    const addSponsorButton = document.querySelector(".add-sponsor");
+    if (addSponsorButton) {
+        // Remove any existing listeners first
+        const newSponsorButton = addSponsorButton.cloneNode(true);
+        addSponsorButton.parentNode.replaceChild(newSponsorButton, addSponsorButton);
+        
+        newSponsorButton.addEventListener("click", function() {
+            sponsorsContainer.insertAdjacentHTML('beforeend', createSponsorRow());
+        });
+    }
+
+    // Remove rows (using event delegation)
     document.addEventListener("click", function(e) {
         if (e.target.classList.contains("remove-row")) {
-            const row = e.target.closest(".student-row");
+            const row = e.target.closest(".student-row, .sponsor-row");
             if (row) {
                 row.remove();
-                const totalForms = document.getElementById('id_student-TOTAL_FORMS');
-                totalForms.value = studentsContainer.querySelectorAll('.student-row').length;
             }
-            }
-        });
-    
-        function updateFormCount(isStudent) {
-            const prefix = isStudent ? 'student' : 'sponsor';
-            const container = isStudent ? studentsContainer : sponsorsContainer;
-            const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
-            totalForms.value = container.querySelectorAll(`.${prefix}-row`).length;
         }
-    
-        // Form submission
-        form.addEventListener('submit', function(e) {
-            const studentRows = studentsContainer.querySelectorAll('.student-row');
-            if (studentRows.length === 0) {
-                e.preventDefault();
-                alert('At least one student is required');
-                return false;
-            }
-            return true;
-        });
     });
-    </script>
+});
+</script>
 
 
 </body>

@@ -247,36 +247,31 @@
                     {{ form.special_requirements.label_tag }}{{ form.special_requirements }}
     
                     <h3>Students</h3>
-                    <div id="students-container">
-                        {{ student_formset.management_form }}
-                        {% for student_form in student_formset %}
-                            <div class="student-row">
-                                {{ student_form.student_first_name }}
-                                {{ student_form.student_last_name }}
-                                {% if not forloop.first %}
-                                    <button type="button" class="remove-row">Remove</button>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button type="button" class="add-row">Add Student</button>
-    
-                    <h3>Sponsors</h3>
-                    <div id="sponsors-container">
-                        {{ sponsor_formset.management_form }}
-                        {% for sponsor_form in sponsor_formset %}
-                            <div class="sponsor-row">
-                                {{ sponsor_form.sponsor_first_name }}
-                                {{ sponsor_form.sponsor_last_name }}
-                                {{ sponsor_form.affiliation }}
-                                {{ sponsor_form.email }}
-                                {% if not forloop.first %}
-                                    <button type="button" class="remove-row">Remove</button>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button type="button" class="add-sponsor">Add Sponsor</button>
+<div id="students-container">
+    {% for student in entry.students.all %}
+        <div class="student-row">
+            <input type="text" name="student_first_name[]" placeholder="Student First Name" value="{{ student.student_first_name }}" required>
+            <input type="text" name="student_last_name[]" placeholder="Student Last Name" value="{{ student.student_last_name }}" required>
+            <button type="button" class="remove-row" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px;">Remove</button>
+        </div>
+    {% endfor %}
+</div>
+<button type="button" class="add-row" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-top: 10px;">Add Student</button>
+
+<!-- Sponsors Section -->
+<h3>Sponsors</h3>
+<div id="sponsors-container">
+    {% for sponsor in entry.sponsors.all %}
+        <div class="sponsor-row">
+            <input type="text" name="sponsor_first_name[]" placeholder="Sponsor First Name" value="{{ sponsor.sponsor_first_name }}" required>
+            <input type="text" name="sponsor_last_name[]" placeholder="Sponsor Last Name" value="{{ sponsor.sponsor_last_name }}" required>
+            <input type="text" name="affiliation[]" placeholder="Affiliation" value="{{ sponsor.affiliation }}" required>
+            <input type="email" name="email[]" placeholder="Email" value="{{ sponsor.email }}" required>
+            <button type="button" class="remove-row" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px;">Remove</button>
+        </div>
+    {% endfor %}
+</div>
+<button type="button" class="add-sponsor" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-top: 10px;">Add Sponsor</button>
                 </div>
     
                 <!-- Second column -->
@@ -321,88 +316,67 @@
 
     <script>
        document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById('editTeamForm');
     const studentsContainer = document.getElementById("students-container");
     const sponsorsContainer = document.getElementById("sponsors-container");
     
-    // Student row template
-    function createStudentRow(index, firstName = '', lastName = '') {
+    // Function to create student row
+    function createStudentRow() {
         return `
             <div class="student-row">
-                <input type="text" name="student-${index}-student_first_name" placeholder="Student First Name" value="${firstName}" required>
-                <input type="text" name="student-${index}-student_last_name" placeholder="Student Last Name" value="${lastName}" required>
-                <input type="hidden" name="students" value="">
+                <input type="text" name="student_first_name[]" placeholder="Student First Name" required>
+                <input type="text" name="student_last_name[]" placeholder="Student Last Name" required>
                 <button type="button" class="remove-row" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px;">Remove</button>
             </div>
         `;
     }
 
-    // Sponsor row template
-    function createSponsorRow(index, firstName = '', lastName = '', affiliation = '', email = '') {
+    // Function to create sponsor row
+    function createSponsorRow() {
         return `
             <div class="sponsor-row">
-                <input type="text" name="sponsor-${index}-sponsor_first_name" placeholder="Sponsor First Name" value="${firstName}" required>
-                <input type="text" name="sponsor-${index}-sponsor_last_name" placeholder="Sponsor Last Name" value="${lastName}" required>
-                <input type="text" name="sponsor-${index}-affiliation" placeholder="Affiliation" value="${affiliation}" required>
-                <input type="email" name="sponsor-${index}-email" placeholder="Email" value="${email}" required>
-                <input type="hidden" name="sponsors" value="">
-                <button type="button" class="remove-row">Remove</button>
+                <input type="text" name="sponsor_first_name[]" placeholder="Sponsor First Name" required>
+                <input type="text" name="sponsor_last_name[]" placeholder="Sponsor Last Name" required>
+                <input type="text" name="affiliation[]" placeholder="Affiliation" required>
+                <input type="email" name="email[]" placeholder="Email" required>
+                <button type="button" class="remove-row" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px;">Remove</button>
             </div>
         `;
     }
 
-    // Add Student
-    document.querySelector(".add-row").addEventListener("click", function() {
-        const totalForms = document.getElementById('id_student-TOTAL_FORMS');
-        const index = parseInt(totalForms.value);
-        studentsContainer.insertAdjacentHTML('beforeend', createStudentRow(index));
-        totalForms.value = index + 1;
-    });
+    // Make sure we only add one event listener
+    const addStudentButton = document.querySelector(".add-row");
+    if (addStudentButton) {
+        // Remove any existing listeners first
+        const newButton = addStudentButton.cloneNode(true);
+        addStudentButton.parentNode.replaceChild(newButton, addStudentButton);
+        
+        newButton.addEventListener("click", function() {
+            studentsContainer.insertAdjacentHTML('beforeend', createStudentRow());
+        });
+    }
 
     // Add Sponsor
-    document.querySelector(".add-sponsor").addEventListener("click", function() {
-        const totalForms = document.getElementById('id_sponsor-TOTAL_FORMS');
-        const index = parseInt(totalForms.value);
-        sponsorsContainer.insertAdjacentHTML('beforeend', createSponsorRow(index));
-        totalForms.value = index + 1;
-    });
+    const addSponsorButton = document.querySelector(".add-sponsor");
+    if (addSponsorButton) {
+        // Remove any existing listeners first
+        const newSponsorButton = addSponsorButton.cloneNode(true);
+        addSponsorButton.parentNode.replaceChild(newSponsorButton, addSponsorButton);
+        
+        newSponsorButton.addEventListener("click", function() {
+            sponsorsContainer.insertAdjacentHTML('beforeend', createSponsorRow());
+        });
+    }
 
-    // Remove rows
+    // Remove rows (using event delegation)
     document.addEventListener("click", function(e) {
         if (e.target.classList.contains("remove-row")) {
             const row = e.target.closest(".student-row, .sponsor-row");
             if (row) {
                 row.remove();
-                if (row.classList.contains("student-row")) {
-                    updateFormCount('student');
-                } else {
-                    updateFormCount('sponsor');
-                }
             }
         }
     });
-
-    function updateFormCount(type) {
-        const container = type === 'student' ? studentsContainer : sponsorsContainer;
-        const totalForms = document.getElementById(`id_${type}-TOTAL_FORMS`);
-        const rows = container.querySelectorAll(`.${type}-row`);
-        totalForms.value = rows.length;
-    }
-
-    // Form submission
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            const studentRows = studentsContainer.querySelectorAll('.student-row');
-            if (studentRows.length === 0) {
-                e.preventDefault();
-                alert('At least one student is required');
-                return false;
-            }
-            return true;
-        });
-    }
 });
-
 </script>
 
     </div>

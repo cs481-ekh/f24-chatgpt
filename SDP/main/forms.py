@@ -1,50 +1,21 @@
+# forms.py
 from django import forms
 from .models import SeniorDesign, Student, Sponsor
 from django.forms import formset_factory
-
-
-class SponsorForm(forms.ModelForm):
-    class Meta:
-        model = Sponsor
-        fields = ['sponsor_first_name', 'sponsor_last_name', 'affiliation', 'email']
-
-SponsorFormSet = formset_factory(SponsorForm, extra=0)
 
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['student_first_name', 'student_last_name']
 
-
-StudentFormSet = formset_factory(StudentForm, extra=0)
+class SponsorForm(forms.ModelForm):
+    class Meta:
+        model = Sponsor
+        fields = ['sponsor_first_name', 'sponsor_last_name', 'affiliation', 'email']
 
 class SeniorDesignForm(forms.ModelForm):
-
-    SEMESTER_YEAR_CHOICES = [
-        ('fall_2024', 'Fall 2024'),
-        ('spring_2025', 'Spring 2025'),
-        ('fall_2025', 'Fall 2025'),
-    ]
-
-    semester_year = forms.ChoiceField(choices=SEMESTER_YEAR_CHOICES, required=True, label="Semester/Year")
-
-    DEPARTMENT_CHOICES = [
-        ('civil_engineering', 'Civil Engineering'),
-        ('computer_science', 'Computer Science'),
-        ('construction_management', 'Construction Management'),
-        ('electrical_engineering', 'Electrical & Computer Engineering'),
-        ('materials_science', 'Materials Science & Engineering'),
-        ('mechanical_engineering', 'Mechanical & Biomedical Engineering'),
-        ('cyber_operations', 'Cyber Operations and Resilience'),
-        ('engineering_plus', 'Engineering PLUS'),
-    ]
-
-    department = forms.ChoiceField(
-        choices=DEPARTMENT_CHOICES,
-        required=True,
-        label="Department",
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
+    students = forms.ModelMultipleChoiceField(queryset=Student.objects.all(), required=False)
+    sponsors = forms.ModelMultipleChoiceField(queryset=Sponsor.objects.all(), required=False)
 
     class Meta:
         model = SeniorDesign
@@ -64,10 +35,13 @@ class SeniorDesignForm(forms.ModelForm):
             'pictures',
             'ada_compliance',
             'students',
-            'sponsors',
+            'sponsors'
         ]
-        
-    def clean(self):
-        cleaned_data = super().clean()
-        # Add any custom validation logic if needed
-        return cleaned_data
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['students'].required = False
+        self.fields['sponsors'].required = False
+
+StudentFormSet = formset_factory(StudentForm, extra=1)
+SponsorFormSet = formset_factory(SponsorForm, extra=1)

@@ -14,6 +14,18 @@ def is_planner(user):
 def main(request):
     senior_designs = SeniorDesign.objects.all()
     is_planner = request.user.groups.filter(name='Planner').exists()
+    
+    # Add student names to each senior design project
+    for design in senior_designs:
+        design.team_member_names = ", ".join(
+            f"{student.student_first_name} {student.student_last_name}" 
+            for student in design.students.all()
+        )
+        design.sponsor_names = ", ".join(
+            f"{sponsor.sponsor_first_name} {sponsor.sponsor_last_name}"
+            for sponsor in design.sponsors.all()
+        )
+    
     return render(request, 'main-page.component.html', {
         'senior_designs': senior_designs,
         'is_planner': is_planner
@@ -78,60 +90,72 @@ def export_csv(request):
 @user_passes_test(is_user)
 def new_team_entry(request):
     if request.method == 'POST':
-        form = SeniorDesignForm(request.POST)
-        student_formset = StudentFormSet(request.POST, prefix='student')
-        sponsor_formset = SponsorFormSet(request.POST, prefix='sponsor')
-        
-        print("Form valid:", form.is_valid())
-        print("Student formset valid:", student_formset.is_valid())
-        print("Sponsor formset valid:", sponsor_formset.is_valid())
-        
-        if student_formset.is_valid() and sponsor_formset.is_valid():
-            try:
-                # First save the formsets to create Student and Sponsor instances
-                students = []
-                sponsors = []
-                
-                # Save students
-                for student_form in student_formset:
-                    if student_form.cleaned_data and not student_form.cleaned_data.get('DELETE', False):
-                        student = student_form.save()
-                        students.append(student.id)
-                
-                # Save sponsors
-                for sponsor_form in sponsor_formset:
-                    if sponsor_form.cleaned_data and not sponsor_form.cleaned_data.get('DELETE', False):
-                        sponsor = sponsor_form.save()
-                        sponsors.append(sponsor.id)
-                
-                # Now add the students and sponsors to the POST data
-                post_data = request.POST.copy()
-                post_data.setlist('students', students)
-                post_data.setlist('sponsors', sponsors)
-                
-                # Create form with updated POST data
-                form = SeniorDesignForm(post_data)
-                
-                if form.is_valid():
-                    senior_design = form.save()
-                    return redirect('main')
-                else:
-                    print("Form errors:", form.errors)
-                    
-            except Exception as e:
-                print(f"Error saving form: {e}")
-        else:
-            print("Student formset errors:", student_formset.errors)
-            print("Sponsor formset errors:", sponsor_formset.errors)
+        try:
+            # Create the senior design record first
+            senior_design = SeniorDesign.objects.create(
+                department=request.POST.get('department'),
+                semester_year=request.POST.get('semester_year'),
+                poster_title=request.POST.get('poster_title'),
+                abstract=request.POST.get('abstract'),
+                special_requirements=request.POST.get('special_requirements'),
+                additional_comments=request.POST.get('additional_comments'),
+                need_power=request.POST.get('need_power') == 'on',
+                need_more=request.POST.get('need_more') == 'on',
+                table=request.POST.get('table') == 'on',
+                easle=request.POST.get('easle') == 'on',
+                foam=request.POST.get('foam') == 'on',
+                sponsor_logos=request.POST.get('sponsor_logos') == 'on',
+                pictures=request.POST.get('pictures') == 'on',
+                ada_compliance=request.POST.get('ada_compliance') == 'on'
+            )
+
+            # Get student data from POST
+            student_first_names = request.POST.getlist('student_first_name[]')
+            student_last_names = request.POST.getlist('student_last_name[]')
+            
+            # Create and add students
+            for first_name, last_name in zip(student_first_names, student_last_names):
+                if first_name and last_name:  # Only create if both names are provided
+                    student = Student.objects.create(
+                        student_first_name=first_name,
+                        student_last_name=last_name
+                    )
+                    senior_design.students.add(student)
+
+            # Get sponsor data from POST
+            sponsor_first_names = request.POST.getlist('sponsor_first_name[]')
+            sponsor_last_names = request.POST.getlist('sponsor_last_name[]')
+            sponsor_affiliations = request.POST.getlist('affiliation[]')
+            sponsor_emails = request.POST.getlist('email[]')
+            
+            # Create and add sponsors
+            for first_name, last_name, affiliation, email in zip(
+                sponsor_first_names, sponsor_last_names, 
+                sponsor_affiliations, sponsor_emails):
+                if all([first_name, last_name, affiliation, email]):  # Only create if all fields are provided
+                    sponsor = Sponsor.objects.create(
+                        sponsor_first_name=first_name,
+                        sponsor_last_name=last_name,
+                        affiliation=affiliation,
+                        email=email
+                    )
+                    senior_design.sponsors.add(sponsor)
+
+            return redirect('main')
+            
+        except Exception as e:
+            print(f"Error creating entry: {str(e)}")
+            # Re-render the form with the submitted data
+            form = SeniorDesignForm(request.POST)
+            return render(request, 'new-team-entry.component.html', {
+                'form': form,
+                'error': str(e)
+            })
     else:
         form = SeniorDesignForm()
-        student_formset = StudentFormSet(prefix='student')
-        sponsor_formset = SponsorFormSet(prefix='sponsor')
-
+        
     return render(request, 'new-team-entry.component.html', {
-        'form': form,
-        'student_formset': student_formset,
-        'sponsor_formset': sponsor_formset,
+        'form': form
     })
 
 
@@ -151,16 +175,80 @@ def create_senior_design(request):
 @login_required
 @user_passes_test(is_user)
 def edit_entry(request, entry_id):
-    entry = get_object_or_404(SeniorDesign, pk=entry_id)
+    senior_design = get_object_or_404(SeniorDesign, pk=entry_id)
+    
     if request.method == 'POST':
-        form = SeniorDesignForm(request.POST, request.FILES, instance=entry)
-        if form.is_valid():
-            form.save()
-            return redirect('main')
-    else:
-        form = SeniorDesignForm(instance=entry)
+        try:
+            # Update the senior design record
+            senior_design.department = request.POST.get('department')
+            senior_design.semester_year = request.POST.get('semester_year')
+            senior_design.poster_title = request.POST.get('poster_title')
+            senior_design.abstract = request.POST.get('abstract')
+            senior_design.special_requirements = request.POST.get('special_requirements')
+            senior_design.additional_comments = request.POST.get('additional_comments')
+            senior_design.need_power = request.POST.get('need_power') == 'on'
+            senior_design.need_more = request.POST.get('need_more') == 'on'
+            senior_design.table = request.POST.get('table') == 'on'
+            senior_design.easle = request.POST.get('easle') == 'on'
+            senior_design.foam = request.POST.get('foam') == 'on'
+            senior_design.sponsor_logos = request.POST.get('sponsor_logos') == 'on'
+            senior_design.pictures = request.POST.get('pictures') == 'on'
+            senior_design.ada_compliance = request.POST.get('ada_compliance') == 'on'
+            senior_design.save()
 
-    return render(request, 'edit-entry.component.html', {'form': form, 'entry': entry})
+            # Clear existing relationships
+            senior_design.students.clear()
+            senior_design.sponsors.clear()
+
+            # Get and update student data
+            student_first_names = request.POST.getlist('student_first_name[]')
+            student_last_names = request.POST.getlist('student_last_name[]')
+            
+            # Create and add students
+            for first_name, last_name in zip(student_first_names, student_last_names):
+                if first_name and last_name:  # Only create if both names are provided
+                    student = Student.objects.create(
+                        student_first_name=first_name,
+                        student_last_name=last_name
+                    )
+                    senior_design.students.add(student)
+
+            # Get and update sponsor data
+            sponsor_first_names = request.POST.getlist('sponsor_first_name[]')
+            sponsor_last_names = request.POST.getlist('sponsor_last_name[]')
+            sponsor_affiliations = request.POST.getlist('affiliation[]')
+            sponsor_emails = request.POST.getlist('email[]')
+            
+            # Create and add sponsors
+            for first_name, last_name, affiliation, email in zip(
+                sponsor_first_names, sponsor_last_names, 
+                sponsor_affiliations, sponsor_emails):
+                if all([first_name, last_name, affiliation, email]):  # Only create if all fields are provided
+                    sponsor = Sponsor.objects.create(
+                        sponsor_first_name=first_name,
+                        sponsor_last_name=last_name,
+                        affiliation=affiliation,
+                        email=email
+                    )
+                    senior_design.sponsors.add(sponsor)
+
+            return redirect('main')
+            
+        except Exception as e:
+            print(f"Error updating entry: {str(e)}")
+            return render(request, 'edit-entry.component.html', {
+                'form': SeniorDesignForm(instance=senior_design),
+                'entry': senior_design,
+                'error': str(e)
+            })
+    else:
+        # Display the form for GET request
+        form = SeniorDesignForm(instance=senior_design)
+        
+    return render(request, 'edit-entry.component.html', {
+        'form': form,
+        'entry': senior_design,
+    })
 
 @login_required
 @user_passes_test(is_user)
