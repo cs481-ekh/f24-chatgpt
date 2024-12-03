@@ -230,177 +230,177 @@
     </div>
     <div class="form-container">
         <h1>Edit/View Entry</h1>
-        <form method="POST" enctype="multipart/form-data" style="width: 100%;">
+        <form method="POST" action="{% url 'edit_entry' entry.id %}" enctype="multipart/form-data" style="width: 100%;" id="editTeamForm">
             {% csrf_token %}
-
-            <!-- Row 1 -->
+    
             <div class="form-row">
                 <div class="form-section">
-                     <div class="dropdown">
-                    {{ form.department.label_tag }}{{ form.department }}
+                    <!-- Your existing form fields -->
+                    <div class="dropdown">
+                        {{ form.department.label_tag }}{{ form.department }}
                     </div>
                     <div class="dropdown">
-                    {{ form.semester_year.label_tag }}{{ form.semester_year }}
+                        {{ form.semester_year.label_tag }}{{ form.semester_year }}
                     </div>
-
+                    
                     {{ form.poster_title.label_tag }}{{ form.poster_title }}
                     {{ form.special_requirements.label_tag }}{{ form.special_requirements }}
-
-                   <h3>Students</h3>
+    
+                    <h3>Students</h3>
                     <div id="students-container">
-                    {{ student_formset.management_form }}
-                   </div>
-                    <button type="button" class="add-row" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-top: 10px;">Add Student</button>
-
-                  <h3>Sponsors</h3>
+                        {{ student_formset.management_form }}
+                        {% for student_form in student_formset %}
+                            <div class="student-row">
+                                {{ student_form.student_first_name }}
+                                {{ student_form.student_last_name }}
+                                {% if not forloop.first %}
+                                    <button type="button" class="remove-row">Remove</button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="add-row">Add Student</button>
+    
+                    <h3>Sponsors</h3>
                     <div id="sponsors-container">
                         {{ sponsor_formset.management_form }}
+                        {% for sponsor_form in sponsor_formset %}
+                            <div class="sponsor-row">
+                                {{ sponsor_form.sponsor_first_name }}
+                                {{ sponsor_form.sponsor_last_name }}
+                                {{ sponsor_form.affiliation }}
+                                {{ sponsor_form.email }}
+                                {% if not forloop.first %}
+                                    <button type="button" class="remove-row">Remove</button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div id="sponsor-template" class="sponsor-row" style="display: none; margin-bottom: 15px;">
-                    <input type="text" name="sponsor_first_name[]" placeholder="Sponsor First Name" required>
-        <input type="text" name="sponsor_last_name[]" placeholder="Sponsor Last Name" required>
-        <input type="text" name="affiliation[]" placeholder="Affiliation" required>
-        <input type="email" name="email[]" placeholder="Email" required>
-        <button type="button" class="remove-row">Remove</button>
-
+                    <button type="button" class="add-sponsor">Add Sponsor</button>
                 </div>
-                    <button type="button" class="add-sponsor" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-top: 10px;">Add Sponsor</button>
-
-                </div>
-
-
+    
+                <!-- Second column -->
                 <div class="form-section">
-                   {{ form.abstract.label_tag }}{{ form.abstract }}
+                    {{ form.abstract.label_tag }}{{ form.abstract }}
                     {{ form.additional_comments.label_tag }}{{ form.additional_comments }}
-
+    
+                    <!-- Checkboxes -->
                     <div class="checkbox-group">
-                        {{ form.table.label_tag }}
-                        {{ form.table }}
+                        {{ form.table.label_tag }}{{ form.table }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.easle.label_tag }}
-                        {{ form.easle }}
+                        {{ form.easle.label_tag }}{{ form.easle }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.foam.label_tag }}
-                        {{ form.foam }}
+                        {{ form.foam.label_tag }}{{ form.foam }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.sponsor_logos.label_tag }}
-                        {{ form.sponsor_logos }}
+                        {{ form.sponsor_logos.label_tag }}{{ form.sponsor_logos }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.pictures.label_tag }}
-                        {{ form.pictures }}
+                        {{ form.pictures.label_tag }}{{ form.pictures }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.need_power.label_tag }}
-                        {{ form.need_power }}
+                        {{ form.need_power.label_tag }}{{ form.need_power }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.need_more.label_tag }}
-                        {{ form.need_more }}
+                        {{ form.need_more.label_tag }}{{ form.need_more }}
                     </div>
                     <div class="checkbox-group">
-                        {{ form.ada_compliance.label_tag }}
-                        {{ form.ada_compliance }}
+                        {{ form.ada_compliance.label_tag }}{{ form.ada_compliance }}
                     </div>
-
+    
                     <div style="text-align: right;">
                         <button type="submit" class="btn-submit">Save Changes</button>
                         <a href="{% url 'main' %}" class="btn-cancel">Back</a>
                     </div>
                 </div>
-                </div>
+            </div>
         </form>
+    </div>
 
     <script>
-       document.addEventListener("DOMContentLoaded", function () {
-    const container = document.getElementById("students-container");
-    const addRowButton = document.querySelector(".add-row");
-    const studentTemplate = document.getElementById("student-template").cloneNode(true);
-    studentTemplate.style.display = "flex"; // Make the template row visible
-    const totalForms = document.querySelector("#id_form-TOTAL_FORMS");
-
-    // Ensure the template isn't appended to the container by default
-    container.innerHTML = ""; // Clear any pre-rendered rows if necessary
-
-    // Add a new student row
-    addRowButton.addEventListener("click", function () {
-        const formCount = parseInt(totalForms.value, 10);
-        const newRow = studentTemplate.cloneNode(true);
-
-        // Update the new form's input names and IDs
-        newRow.querySelectorAll("input").forEach((input) => {
-            const name = input.getAttribute("name").replace(/-\d+-/, `-${formCount}-`);
-            input.setAttribute("name", name);
-            input.setAttribute("id", `id_${name}`);
-            input.value = ""; // Clear the value for the new form
-        });
-
-        // Append the new row and increment the form count
-        container.appendChild(newRow);
-        totalForms.value = formCount + 1;
-    });
-
-    // Remove a student row
-    container.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remove-row")) {
-            const rows = container.querySelectorAll(".student-row");
-            if (rows.length > 1) {
-                event.target.closest(".student-row").remove();
-                totalForms.value = container.querySelectorAll(".student-row").length;
-            } else {
-                alert("At least one student is required.");
-            }
-        }
-    });
-});
-
-
-
-
-    </script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    // Sponsors functionality
+       document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('editTeamForm');
+    const studentsContainer = document.getElementById("students-container");
     const sponsorsContainer = document.getElementById("sponsors-container");
-    const addSponsorButton = document.querySelector(".add-sponsor");
-    const sponsorTemplate = document.getElementById("sponsor-template").cloneNode(true);
-    sponsorTemplate.style.display = "flex"; // Make the template row visible
-    const sponsorTotalForms = document.querySelector("#id_sponsor-TOTAL_FORMS"); // Unique ID for sponsors
+    
+    // Student row template
+    function createStudentRow(index, firstName = '', lastName = '') {
+        return `
+            <div class="student-row">
+                <input type="text" name="student-${index}-student_first_name" placeholder="Student First Name" value="${firstName}" required>
+                <input type="text" name="student-${index}-student_last_name" placeholder="Student Last Name" value="${lastName}" required>
+                <input type="hidden" name="students" value="">
+                <button type="button" class="remove-row" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px;">Remove</button>
+            </div>
+        `;
+    }
 
-    // Add a new sponsor row
-    addSponsorButton.addEventListener("click", function () {
-        const formCount = parseInt(sponsorTotalForms.value, 10);
-        const newRow = sponsorTemplate.cloneNode(true);
+    // Sponsor row template
+    function createSponsorRow(index, firstName = '', lastName = '', affiliation = '', email = '') {
+        return `
+            <div class="sponsor-row">
+                <input type="text" name="sponsor-${index}-sponsor_first_name" placeholder="Sponsor First Name" value="${firstName}" required>
+                <input type="text" name="sponsor-${index}-sponsor_last_name" placeholder="Sponsor Last Name" value="${lastName}" required>
+                <input type="text" name="sponsor-${index}-affiliation" placeholder="Affiliation" value="${affiliation}" required>
+                <input type="email" name="sponsor-${index}-email" placeholder="Email" value="${email}" required>
+                <input type="hidden" name="sponsors" value="">
+                <button type="button" class="remove-row">Remove</button>
+            </div>
+        `;
+    }
 
-        // Update the new form's input names and IDs
-        newRow.querySelectorAll("input").forEach((input) => {
-            const name = input.getAttribute("name").replace(/-\d+-/, `-${formCount}-`);
-            input.setAttribute("name", name);
-            input.setAttribute("id", `id_${name}`);
-            input.value = ""; // Clear the value for the new form
-        });
-
-        // Append the new row and increment the form count
-        sponsorsContainer.appendChild(newRow);
-        sponsorTotalForms.value = formCount + 1;
+    // Add Student
+    document.querySelector(".add-row").addEventListener("click", function() {
+        const totalForms = document.getElementById('id_student-TOTAL_FORMS');
+        const index = parseInt(totalForms.value);
+        studentsContainer.insertAdjacentHTML('beforeend', createStudentRow(index));
+        totalForms.value = index + 1;
     });
 
-    // Remove a sponsor row
-    sponsorsContainer.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remove-sponsor")) {
-            const rows = sponsorsContainer.querySelectorAll(".sponsor-row");
-            if (rows.length > 1) {
-                event.target.closest(".sponsor-row").remove();
-                sponsorTotalForms.value = sponsorsContainer.querySelectorAll(".sponsor-row").length;
-            } else {
-                alert("At least one sponsor is required.");
+    // Add Sponsor
+    document.querySelector(".add-sponsor").addEventListener("click", function() {
+        const totalForms = document.getElementById('id_sponsor-TOTAL_FORMS');
+        const index = parseInt(totalForms.value);
+        sponsorsContainer.insertAdjacentHTML('beforeend', createSponsorRow(index));
+        totalForms.value = index + 1;
+    });
+
+    // Remove rows
+    document.addEventListener("click", function(e) {
+        if (e.target.classList.contains("remove-row")) {
+            const row = e.target.closest(".student-row, .sponsor-row");
+            if (row) {
+                row.remove();
+                if (row.classList.contains("student-row")) {
+                    updateFormCount('student');
+                } else {
+                    updateFormCount('sponsor');
+                }
             }
         }
     });
+
+    function updateFormCount(type) {
+        const container = type === 'student' ? studentsContainer : sponsorsContainer;
+        const totalForms = document.getElementById(`id_${type}-TOTAL_FORMS`);
+        const rows = container.querySelectorAll(`.${type}-row`);
+        totalForms.value = rows.length;
+    }
+
+    // Form submission
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const studentRows = studentsContainer.querySelectorAll('.student-row');
+            if (studentRows.length === 0) {
+                e.preventDefault();
+                alert('At least one student is required');
+                return false;
+            }
+            return true;
+        });
+    }
 });
 
 </script>

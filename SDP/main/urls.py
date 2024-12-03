@@ -15,5 +15,8 @@ urlpatterns = [
     path('delete/<int:entry_id>/', views.delete_team_entry, name='delete_team_entry'),
 ]
 
+print("URL Patterns loaded:", urlpatterns)  # Debug print
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

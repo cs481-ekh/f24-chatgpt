@@ -354,187 +354,286 @@
         </div>
     </div>
     <div class="form-container">
-        <!-- Apply the form-title class to adjust the font size -->
         <h1 class="form-title">Add New Team Entry</h1>
-        <form method="POST" style="width: 100%;">
+        <form method="POST" action="{% url 'new_team_entry' %}" id="newTeamForm" style="width: 100%;">
             {% csrf_token %}
-
-            <!-- Row 1 -->
+    
             <div class="form-row">
                 <div class="form-section">
                     <div class="dropdown">
-                    {{ form.department.label_tag }}{{ form.department }}
+                        <label for="id_department">Department:</label>
+                        {{ form.department }}
                     </div>
+    
                     <div class="dropdown">
-                    {{ form.semester_year.label_tag }}{{ form.semester_year }}
+                        <label for="id_semester_year">Semester/Year:</label>
+                        {{ form.semester_year }}
                     </div>
-                    
-                    {{ form.poster_title.label_tag }}{{ form.poster_title }}
-                    {{ form.special_requirements.label_tag }}{{ form.special_requirements }}
-
-                   <h3>Students</h3>
+    
+                    <label for="id_poster_title">Poster title:</label>
+                    {{ form.poster_title }}
+    
+                    <label for="id_special_requirements">Special requirements:</label>
+                    {{ form.special_requirements }}
+    
+                    <h3>Students</h3>
                     <div id="students-container">
-                    {{ student_formset.management_form }}
-                   </div>
+                        {{ student_formset.management_form }}
+                    </div>
                     <button type="button" class="add-row" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-top: 10px;">Add Student</button>
-
-                  <h3>Sponsors</h3>
+    
+                    <h3>Sponsors</h3>
                     <div id="sponsors-container">
                         {{ sponsor_formset.management_form }}
                     </div>
-                    <div id="sponsor-template" class="sponsor-row" style="display: none; margin-bottom: 15px;">
-                    <input type="text" name="sponsor_first_name[]" placeholder="Sponsor First Name" required>
-        <input type="text" name="sponsor_last_name[]" placeholder="Sponsor Last Name" required>
-        <input type="text" name="affiliation[]" placeholder="Affiliation" required>
-        <input type="email" name="email[]" placeholder="Email" required>
-        <button type="button" class="remove-row">Remove</button>
-
-                </div>
                     <button type="button" class="add-sponsor" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-top: 10px;">Add Sponsor</button>
-
                 </div>
-
-
-                
+    
                 <div class="form-section">
-                    {{ form.abstract.label_tag }}{{ form.abstract }}
-                    {{ form.additional_comments.label_tag }}{{ form.additional_comments }}
-                
-                    <div class="checkbox-group">
-                        {{ form.table.label_tag }}
+                    <label for="id_abstract">Abstract:</label>
+                    {{ form.abstract }}
+    
+                    <label for="id_additional_comments">Additional comments:</label>
+                    {{ form.additional_comments }}
+    
+                    <div class="checkbox-group" style="display: grid; grid-template-columns: auto 1fr; align-items: center;">
+                        <label for="id_table">Table:</label>
                         {{ form.table }}
                     </div>
+    
                     <div class="checkbox-group">
-                        {{ form.easle.label_tag }}
+                        <label for="id_easle">Easle:</label>
                         {{ form.easle }}
                     </div>
+    
                     <div class="checkbox-group">
-                        {{ form.foam.label_tag }}
+                        <label for="id_foam">Foam:</label>
                         {{ form.foam }}
                     </div>
+    
                     <div class="checkbox-group">
-                        {{ form.sponsor_logos.label_tag }}
+                        <label for="id_sponsor_logos">Sponsor logos:</label>
                         {{ form.sponsor_logos }}
                     </div>
+    
                     <div class="checkbox-group">
-                        {{ form.pictures.label_tag }}
+                        <label for="id_pictures">Pictures:</label>
                         {{ form.pictures }}
                     </div>
+    
                     <div class="checkbox-group">
-                        {{ form.need_power.label_tag }}
+                        <label for="id_need_power">Need power:</label>
                         {{ form.need_power }}
                     </div>
+    
                     <div class="checkbox-group">
-                        {{ form.need_more.label_tag }}
+                        <label for="id_need_more">Need more:</label>
                         {{ form.need_more }}
                     </div>
+    
                     <div class="checkbox-group">
-                        {{ form.ada_compliance.label_tag }}
+                        <label for="id_ada_compliance">Ada compliance:</label>
                         {{ form.ada_compliance }}
                     </div>
-                    
-                    <div style = "text-align: right;">
-                    <button type="submit" class="btn-submit">Submit</button>
+    
+                    <div style="text-align: right;">
+                        <button type="submit" class="btn-submit">Submit</button>
                     </div>
-
                 </div>
-                
             </div>
-
-            
         </form>
     </div>
-
+    
+    <style>
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: white;
+        }
+    
+        .form-title {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: white;
+            text-align: center;
+        }
+    
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    
+        .form-section {
+            width: 48%;
+        }
+    
+        .dropdown select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            color: #000;
+            background-color: #fff;
+        }
+    
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #000;
+        }
+    
+        textarea {
+            height: 70px;
+            resize: none;
+            overflow-y: auto;
+        }
+    
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 13px;
+        }
+    
+        .checkbox-group label {
+            width: 70px;
+            margin-right: -1000px;
+            padding-left: 200px;
+        }
+    
+        .btn-submit {
+            background-color: #f06329;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+    
+        .btn-submit:hover {
+            background-color: #224aa1;
+        }
+    
+        .student-row, .sponsor-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+    
+        .add-row, .add-sponsor {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    
+        .remove-row {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+    
     <script>
-       document.addEventListener("DOMContentLoaded", function () {
-    const container = document.getElementById("students-container");
-    const addRowButton = document.querySelector(".add-row");
-    const studentTemplate = document.getElementById("student-template").cloneNode(true);
-    studentTemplate.style.display = "flex"; // Make the template row visible
-    const totalForms = document.querySelector("#id_form-TOTAL_FORMS");
+   document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('newTeamForm');
+    const studentsContainer = document.getElementById("students-container");
+        const sponsorsContainer = document.getElementById("sponsors-container");
+        
+        // Student row template
+        function createStudentRow(index) {
+    return `
+        <div class="student-row">
+            <input type="text" name="student-${index}-student_first_name" placeholder="Student First Name" required>
+            <input type="text" name="student-${index}-student_last_name" placeholder="Student Last Name" required>
+            <input type="hidden" name="students" value="">
+            <button type="button" class="remove-row">Remove</button>
+        </div>
+    `;
+}
 
-    // Ensure the template isn't appended to the container by default
-    container.innerHTML = ""; // Clear any pre-rendered rows if necessary
-
-    // Add a new student row
-    addRowButton.addEventListener("click", function () {
-        const formCount = parseInt(totalForms.value, 10);
-        const newRow = studentTemplate.cloneNode(true);
-
-        // Update the new form's input names and IDs
-        newRow.querySelectorAll("input").forEach((input) => {
-            const name = input.getAttribute("name").replace(/-\d+-/, `-${formCount}-`);
-            input.setAttribute("name", name);
-            input.setAttribute("id", `id_${name}`);
-            input.value = ""; // Clear the value for the new form
+function createSponsorRow(index) {
+    return `
+        <div class="sponsor-row">
+            <input type="text" name="sponsor-${index}-sponsor_first_name" placeholder="Sponsor First Name" required>
+            <input type="text" name="sponsor-${index}-sponsor_last_name" placeholder="Last Name" required>
+            <input type="text" name="sponsor-${index}-affiliation" placeholder="Affiliation" required>
+            <input type="email" name="sponsor-${index}-email" placeholder="Email" required>
+            <input type="hidden" name="sponsors" value="">
+            <button type="button" class="remove-row">Remove</button>
+        </div>
+    `;
+}
+    
+          // Add Student
+    document.querySelector(".add-row").addEventListener("click", function() {
+        const totalForms = document.getElementById('id_student-TOTAL_FORMS');
+        const index = parseInt(totalForms.value);
+        studentsContainer.insertAdjacentHTML('beforeend', createStudentRow(index));
+        totalForms.value = index + 1;
+    });
+    
+        // Add Sponsor
+        document.querySelector(".add-sponsor").addEventListener("click", function() {
+            const totalForms = document.getElementById('id_sponsor-TOTAL_FORMS');
+            const index = parseInt(totalForms.value);
+            sponsorsContainer.insertAdjacentHTML('beforeend', createSponsorRow(index));
+            totalForms.value = index + 1;
         });
-
-        // Append the new row and increment the form count
-        container.appendChild(newRow);
-        totalForms.value = formCount + 1;
-    });
-
-    // Remove a student row
-    container.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remove-row")) {
-            const rows = container.querySelectorAll(".student-row");
-            if (rows.length > 1) {
-                event.target.closest(".student-row").remove();
-                totalForms.value = container.querySelectorAll(".student-row").length;
-            } else {
-                alert("At least one student is required.");
+    
+         // Remove Student
+    document.addEventListener("click", function(e) {
+        if (e.target.classList.contains("remove-row")) {
+            const row = e.target.closest(".student-row");
+            if (row) {
+                row.remove();
+                const totalForms = document.getElementById('id_student-TOTAL_FORMS');
+                totalForms.value = studentsContainer.querySelectorAll('.student-row').length;
             }
+            }
+        });
+    
+        function updateFormCount(isStudent) {
+            const prefix = isStudent ? 'student' : 'sponsor';
+            const container = isStudent ? studentsContainer : sponsorsContainer;
+            const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+            totalForms.value = container.querySelectorAll(`.${prefix}-row`).length;
         }
+    
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            const studentRows = studentsContainer.querySelectorAll('.student-row');
+            if (studentRows.length === 0) {
+                e.preventDefault();
+                alert('At least one student is required');
+                return false;
+            }
+            return true;
+        });
     });
-});
-
-
-
-
     </script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    // Sponsors functionality
-    const sponsorsContainer = document.getElementById("sponsors-container");
-    const addSponsorButton = document.querySelector(".add-sponsor");
-    const sponsorTemplate = document.getElementById("sponsor-template").cloneNode(true);
-    sponsorTemplate.style.display = "flex"; // Make the template row visible
-    const sponsorTotalForms = document.querySelector("#id_sponsor-TOTAL_FORMS"); // Unique ID for sponsors
-
-    // Add a new sponsor row
-    addSponsorButton.addEventListener("click", function () {
-        const formCount = parseInt(sponsorTotalForms.value, 10);
-        const newRow = sponsorTemplate.cloneNode(true);
-
-        // Update the new form's input names and IDs
-        newRow.querySelectorAll("input").forEach((input) => {
-            const name = input.getAttribute("name").replace(/-\d+-/, `-${formCount}-`);
-            input.setAttribute("name", name);
-            input.setAttribute("id", `id_${name}`);
-            input.value = ""; // Clear the value for the new form
-        });
-
-        // Append the new row and increment the form count
-        sponsorsContainer.appendChild(newRow);
-        sponsorTotalForms.value = formCount + 1;
-    });
-
-    // Remove a sponsor row
-    sponsorsContainer.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remove-sponsor")) {
-            const rows = sponsorsContainer.querySelectorAll(".sponsor-row");
-            if (rows.length > 1) {
-                event.target.closest(".sponsor-row").remove();
-                sponsorTotalForms.value = sponsorsContainer.querySelectorAll(".sponsor-row").length;
-            } else {
-                alert("At least one sponsor is required.");
-            }
-        }
-    });
-});
-
-</script>
 
 
 </body>

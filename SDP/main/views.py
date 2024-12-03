@@ -78,31 +78,55 @@ def export_csv(request):
 @user_passes_test(is_user)
 def new_team_entry(request):
     if request.method == 'POST':
-        form = SeniorDesignForm(request.POST, request.FILES)
-        student_formset = StudentFormSet(request.POST, prefix="student")
-        sponsor_formset = SponsorFormSet(request.POST, prefix="sponsor")
-
-        if form.is_valid() and student_formset.is_valid() and sponsor_formset.is_valid():
-            senior_design_instance = form.save(commit=False)
-            senior_design_instance.save()
-
-            # Save students
-            for student_form in student_formset:
-                if student_form.cleaned_data:
-                    student = student_form.save()
-                    senior_design_instance.students.add(student)
-
-            # Save sponsors
-            for sponsor_form in sponsor_formset:
-                if sponsor_form.cleaned_data:
-                    sponsor = sponsor_form.save()
-                    senior_design_instance.sponsors.add(sponsor)
-
-            return redirect('main')
+        form = SeniorDesignForm(request.POST)
+        student_formset = StudentFormSet(request.POST, prefix='student')
+        sponsor_formset = SponsorFormSet(request.POST, prefix='sponsor')
+        
+        print("Form valid:", form.is_valid())
+        print("Student formset valid:", student_formset.is_valid())
+        print("Sponsor formset valid:", sponsor_formset.is_valid())
+        
+        if student_formset.is_valid() and sponsor_formset.is_valid():
+            try:
+                # First save the formsets to create Student and Sponsor instances
+                students = []
+                sponsors = []
+                
+                # Save students
+                for student_form in student_formset:
+                    if student_form.cleaned_data and not student_form.cleaned_data.get('DELETE', False):
+                        student = student_form.save()
+                        students.append(student.id)
+                
+                # Save sponsors
+                for sponsor_form in sponsor_formset:
+                    if sponsor_form.cleaned_data and not sponsor_form.cleaned_data.get('DELETE', False):
+                        sponsor = sponsor_form.save()
+                        sponsors.append(sponsor.id)
+                
+                # Now add the students and sponsors to the POST data
+                post_data = request.POST.copy()
+                post_data.setlist('students', students)
+                post_data.setlist('sponsors', sponsors)
+                
+                # Create form with updated POST data
+                form = SeniorDesignForm(post_data)
+                
+                if form.is_valid():
+                    senior_design = form.save()
+                    return redirect('main')
+                else:
+                    print("Form errors:", form.errors)
+                    
+            except Exception as e:
+                print(f"Error saving form: {e}")
+        else:
+            print("Student formset errors:", student_formset.errors)
+            print("Sponsor formset errors:", sponsor_formset.errors)
     else:
         form = SeniorDesignForm()
-        student_formset = StudentFormSet(prefix="student")
-        sponsor_formset = SponsorFormSet(prefix="sponsor")
+        student_formset = StudentFormSet(prefix='student')
+        sponsor_formset = SponsorFormSet(prefix='sponsor')
 
     return render(request, 'new-team-entry.component.html', {
         'form': form,
