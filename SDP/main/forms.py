@@ -17,6 +17,33 @@ class SeniorDesignForm(forms.ModelForm):
     students = forms.ModelMultipleChoiceField(queryset=Student.objects.all(), required=False)
     sponsors = forms.ModelMultipleChoiceField(queryset=Sponsor.objects.all(), required=False)
 
+    SEMESTER_YEAR_CHOICES = [
+        ('Fall 2024', 'Fall 2024'),
+        ('Spring 2025', 'Spring 2025'),
+        ('Fall 2025', 'Fall 2025'),
+    ]
+
+    semester_year = forms.ChoiceField(choices=SEMESTER_YEAR_CHOICES, required=True, label="Semester/Year")
+
+    DEPARTMENT_CHOICES = [
+        ('Civil Engineering', 'Civil Engineering'),
+        ('Computer Science', 'Computer Science'),
+        ('Computer Systems Engineering', 'Electrical & Computer Engineering'),
+        ('Construction Management', 'Construction Management'),
+        ('Electrical Engineering', 'Electrical Engineering'),
+        ('Materials Science & Engineering', 'Materials Science & Engineering'),
+        ('Mechanical & Biomedical Engineering', 'Mechanical & Biomedical Engineering'),
+        ('Cyber Operations and Resilience', 'Cyber Operations and Resilience'),
+        ('Engineering PLUS', 'Engineering PLUS'),
+    ]
+
+    department = forms.ChoiceField(
+        choices=DEPARTMENT_CHOICES,
+        required=True,
+        label="Department",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = SeniorDesign
         fields = [
